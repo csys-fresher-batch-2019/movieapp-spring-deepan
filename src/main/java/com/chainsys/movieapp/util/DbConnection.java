@@ -11,9 +11,10 @@ public class DbConnection {
 		Connection connection=null;
 		try {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		String url="jdbc:oracle:thin:@localhost:1521:XE";
-		connection=DriverManager.getConnection(url,"system","oracle");
-		//connection=DriverManager.getConnection(url,"deepan","deepan");
+		//String url="jdbc:oracle:thin:@localhost:1521:XE";
+		String url="jdbc:oracle:thin:@13.235.147.120:1521:XE";
+		//connection=DriverManager.getConnection(url,"system","oracle");
+		connection=DriverManager.getConnection(url,"deepan","deepan");
 
 		}
 		catch(ClassNotFoundException e) {
