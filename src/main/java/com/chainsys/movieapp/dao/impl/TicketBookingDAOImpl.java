@@ -30,7 +30,7 @@ public void addBookingDetails(TicketBooking booked) throws DbException {
 			pst.setInt(4, booked.getAmount());
 			//pst.setLong(5, booked.getMobileNum());
 			pst.setDate(5,Date.valueOf( booked.getShowDate()));
-			int row = pst.executeUpdate();
+			pst.executeUpdate();
 			//System.out.println(row);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,8 +89,7 @@ public Long getMobileNumber(int usersId) throws DbException {
 		// System.out.println(sql);
 		Long a=null;
 		try (Connection con = DbConnection.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);
-			) {
+			PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, usersId);
 			a = (long) 0;
 			try(ResultSet rs = pst.executeQuery();){
@@ -117,7 +116,7 @@ public List<TicketBooking> getUserBookedDetails(int userId) throws DbException {
 			PreparedStatement stmt = con.prepareStatement(sql);)
 	{
 		       stmt.setInt(1, userId);
-		try(	ResultSet rs = stmt.executeQuery();)
+		try(ResultSet rs = stmt.executeQuery();)
 		{
 		while (rs.next()) {
 			TicketBooking tl = new TicketBooking();

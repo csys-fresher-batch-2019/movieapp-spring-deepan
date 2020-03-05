@@ -140,7 +140,11 @@ button[type="submit"] {
 }
 </style>
 <body>
-
+<%String errorMessage = (String)request.getAttribute("errorMessage");
+if(errorMessage !=null)
+{%>
+<font color="red"style="font: bold"><%=errorMessage%>
+<%}%>
 	<jsp:include page="header.jsp"></jsp:include>
 
 	<div class="main-reg">
@@ -189,7 +193,7 @@ button[type="submit"] {
 				<div class="form-group">
 					<div class="form-label">Password :-</div>
 					<div class="form-input">
-						<input type="Password" name="Password" minlength="8" />
+						<input type="Password" name="Password" minlength="8" required/>
 					</div>
 				</div>
 

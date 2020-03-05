@@ -96,19 +96,21 @@ public List<MovieList> getmovieName(String movieLanguage,String movieType) throw
 		//System.out.println(sqla);
 		System.out.println("");
 		try (	Connection con = DbConnection.getConnection();
-				PreparedStatement stmta = con.prepareStatement(sqla);
-				ResultSet rs = stmta.executeQuery();
-)
+				PreparedStatement stmta = con.prepareStatement(sqla);)
 		{
 			stmta.setString(1, movieLanguage);
 			stmta.setString(2, movieType);
+		try(ResultSet rs = stmta.executeQuery();)
+				
+		{
+			
 			while (rs.next()) 
 			{
 				MovieList ml = new MovieList();
 				ml.setMovieName(rs.getString("movie_name"));
 				list.add(ml);
 			}
-		} catch (SQLException e) {
+		} }catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return list;
@@ -124,9 +126,9 @@ public List<MovieList> allMovieList() throws DbException {
 		System.out.println("");
 		//System.out.println(sqla);
 		try(	Connection con = DbConnection.getConnection();
-				Statement stmta = con.createStatement();)
+				PreparedStatement stmta = con.prepareStatement(sqla);)
 		{
-			try(ResultSet rs = stmta.executeQuery(sqla);){
+			try(ResultSet rs = stmta.executeQuery();){
 			
 			while (rs.next()) {
 				MovieList ml = new MovieList();
@@ -158,12 +160,13 @@ public List<MovieList> allMovieList() throws DbException {
 public List<MovieList> allMovieDetails(String movieName) throws DbException {
 
 		List<MovieList> list = new ArrayList<MovieList>();
-		String sqla = "Select * from movie where movie_name='"+movieName+"'";
+		String sqla = "Select * from movie where movie_name=?";
 		System.out.println(sqla);
 		//System.out.println(sqla);
 		try (	Connection con = DbConnection.getConnection();
-				Statement stmta = con.createStatement();)
+				PreparedStatement stmta = con.prepareStatement(sqla);)
 		{
+			stmta.setString(1,movieName);
 			try(ResultSet rs = stmta.executeQuery(sqla);){
 			while (rs.next()) {
 				MovieList ml = new MovieList();

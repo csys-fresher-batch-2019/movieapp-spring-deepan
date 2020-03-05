@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.model.UserInformation;
@@ -12,7 +14,8 @@ import com.chainsys.movieapp.util.DbException;
 
 public class UserInformationImpl implements UserInformationDAO{
 
-		public void addUserInformation(UserInformation users) throws DbException {
+		public int addUserInformation(UserInformation users) throws DbException {
+			int row=0;
 			String sql="insert into users(user_id,user_name,email_id,epassword,mobile_num,gender)values(user_id_seq.nextval,?,?,?,?,?)";
 			//System.out.println(sql);
 			try (   Connection con=DbConnection.getConnection();
@@ -23,11 +26,12 @@ public class UserInformationImpl implements UserInformationDAO{
 				pst.setString(3,users.getEpassword());
 				pst.setLong(4,users.getMobileNum());
 				pst.setString(5, users.getGender());
-				int row=pst. executeUpdate();
+				row=pst. executeUpdate();
 				System.out.println(row);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			return row;
 
 			
 		}
@@ -51,25 +55,33 @@ public class UserInformationImpl implements UserInformationDAO{
 		}
 		
 		
-		
+		/** 
+		 * If valid user , it returns userId 
+		 * If invalid email or password, it returns null
+		 */
 		
 		public Integer login(String emailId, String epassword) throws DbException {
            Integer userId = null;
-			String sql = "select user_id,email_id,epassword from users where email_id= '" + emailId + "' and epassword = '"+ epassword + "'";
+			String sql = "select user_id,email_id,epassword from users where email_id=? and epassword =?";
 			//System.out.println(sql);
             String s=null;
-			try (Connection con=DbConnection.getConnection();
-				ResultSet row = con.createStatement().executeQuery(sql);
-)
+			try (Connection con=DbConnection.getConnection();PreparedStatement pst=con.prepareStatement(sql);)
 			{
 				
+			pst.setString(1,emailId);
+			pst.setString(2, epassword);
+			
+			try(ResultSet row = pst.executeQuery();)
+			{				
 				if (row.next())
 				{
 					userId = row.getInt("user_id");
 				}
-} 
+			}
+			} 
 		catch (SQLException e) {
 				e.printStackTrace();
+				throw new DbException("Unable to execute login query");
 			}
 			return userId;
 }
@@ -123,7 +135,40 @@ public class UserInformationImpl implements UserInformationDAO{
 			}
 			return email;
 		}
-		}
 
+
+
+		@Override
+		public List <UserInformation> allUserDetails() throws DbException {
+			
+	    List<UserInformation> list1 =new ArrayList<UserInformation>();
+	    String sql ="select * from users";
+	    System.out.println(sql);
+	    try(Connection con = DbConnection.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);){
+	    	try(ResultSet rs =pst.executeQuery();){
+	    		while(rs.next()) {
+	    			UserInformation reg = new UserInformation();
+	    			reg.setEmailId(rs.getString("email_id"));
+	    			reg.setEpassword(rs.getString("epassword"));
+	    			reg.setGender(rs.getString("gender"));
+	    			reg.setUserId(rs.getInt("user_id"));
+	    			reg.setMobileNum(rs.getLong("mobile_num"));
+	    			reg.setUserName(rs.getString("user_name"));
+	    			list1.add(reg);
+	    		}
+	    		
+	    	}
+	    	 } catch(SQLException e) {
+			   e.printStackTrace();
+	    	 }
+	    
+	   return list1;
+		}
+		}
+		
+		
+		
+		
 		
 

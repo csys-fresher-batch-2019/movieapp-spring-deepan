@@ -1,17 +1,19 @@
 package com.chainsys.movieapp.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.chainsys.movieapp.dao.SubMovieTheatreDAO;
 import com.chainsys.movieapp.model.SubMovieTheatre;
 import com.chainsys.movieapp.util.DbConnection;
 import com.chainsys.movieapp.util.DbException;
 
-public class SubMovieTheatreImpl {
+public class SubMovieTheatreImpl implements SubMovieTheatreDAO{
 
 	public List<SubMovieTheatre> getAvailableSeats() throws DbException {
 		List<SubMovieTheatre> list = new ArrayList<SubMovieTheatre>();
@@ -20,10 +22,10 @@ public class SubMovieTheatreImpl {
 					+ "WHERE m.movie_id = mt.movie_id AND t.theatre_id = MT.THEATRE_ID";
 			System.out.println("");
 			try (Connection con = DbConnection.getConnection(); 
-					Statement stmta = con.createStatement();){
+					PreparedStatement stmta = con.prepareStatement(sqla);){
 				
 			
-					try(ResultSet rs = stmta.executeQuery(sqla);) {
+					try(ResultSet rs = stmta.executeQuery();) {
 
 
 			// System.out.println(sqla);

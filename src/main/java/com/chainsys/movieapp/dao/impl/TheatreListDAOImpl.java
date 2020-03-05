@@ -78,9 +78,9 @@ public List<TheatreList> allTheatreDetails() throws DbException {
 		// System.out.println(sql);
 		System.out.println("");
 		try (	Connection con = DbConnection.getConnection();
-				Statement stmt = con.createStatement();)
+				PreparedStatement stmt = con.prepareStatement(sql);)
 		{
-			try(	ResultSet rs = stmt.executeQuery(sql);)
+			try(	ResultSet rs = stmt.executeQuery();)
 			{
 			while (rs.next()) {
 				TheatreList tl = new TheatreList();

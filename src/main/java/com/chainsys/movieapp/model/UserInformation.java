@@ -22,8 +22,8 @@ public class UserInformation {
 	public String getEmailId() {
 		return emailId;
 	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public String setEmailId(String emailId) {
+		return this.emailId = emailId;
 	}
 	public String getEpassword() {
 		return epassword;
@@ -34,8 +34,8 @@ public class UserInformation {
 	public Long getMobileNum() {
 		return mobileNum;
 	}
-	public void setMobileNum(Long mobileNum) {
-		this.mobileNum = mobileNum;
+	public long setMobileNum(Long mobileNum) {
+		return this.mobileNum = mobileNum;
 	}
 	public String getGender() {
 		return gender;
