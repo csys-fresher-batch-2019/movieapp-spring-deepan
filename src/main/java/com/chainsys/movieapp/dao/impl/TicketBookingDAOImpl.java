@@ -9,18 +9,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.dao.TicketBookingDAO;
 import com.chainsys.movieapp.model.TicketBooking;
 import com.chainsys.movieapp.util.DbConnection;
 import com.chainsys.movieapp.util.DbException;
+import com.chainsys.movieapp.util.ErrorConstant;
 
 public class TicketBookingDAOImpl implements TicketBookingDAO {
 
+	private static final Logger logger = LoggerFactory.getLogger(TicketBookingDAOImpl.class);
+
 	
-	
-public void addBookingDetails(TicketBooking booked) throws DbException {
+public void save(TicketBooking booked) throws DbException {
 		String sql = "insert into booked(movie_theatre_id,booked_id,users_id,booked_seats,amount,show_date)values(?,booked_id.nextval,?,?,?,?)";
-		// System.out.println(sql);
+		// logger.info(sql);
 		try (Connection con = DbConnection.getConnection(); 
 			 PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, booked.getMovieTheaterId());
@@ -31,35 +36,39 @@ public void addBookingDetails(TicketBooking booked) throws DbException {
 			//pst.setLong(5, booked.getMobileNum());
 			pst.setDate(5,Date.valueOf( booked.getShowDate()));
 			pst.executeUpdate();
-			//System.out.println(row);
+			//logger.info(row);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_ADD);
+
 		}
 
 	}
 
 	
 
-public void deleteBookingDetails(int usersId) throws DbException {
+public void deleteBookingDetailsByUserId(int usersId) throws DbException {
 		String sql = "delete from booked where users_id=?";
-		// System.out.println(sql);
+		// logger.info(sql);
 		try (Connection con = DbConnection.getConnection(); 
 			 PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, usersId);
 			int row = pst.executeUpdate();
-			System.out.println(row);
+			logger.info(""+row);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_DELETE);
+
 		}
 
 	}
 
 	
 
-public int getPrice(int movieTheatreId) throws DbException {
+public int findPriceByMovieTheatreId(int movieTheatreId) throws DbException {
 		String sql = "Select price from movie_theatre where movie_theatre_id=?";
-		System.out.println("");
-		// System.out.println(sql);
+		logger.info("");
+		// logger.info(sql);
 		int a=0;
 		try (Connection con = DbConnection.getConnection(); 
 			 PreparedStatement pst = con.prepareStatement(sql))
@@ -75,7 +84,9 @@ public int getPrice(int movieTheatreId) throws DbException {
 			}
 			//return a;
 		}} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_SELECT);
+
 		}
 		return a;
 
@@ -83,10 +94,10 @@ public int getPrice(int movieTheatreId) throws DbException {
 
 	
 
-public Long getMobileNumber(int usersId) throws DbException {
+public Long findMobileNumberByUserId(int usersId) throws DbException {
 		String sql = "select mobile_num from users where user_id in (select users_id from booked where users_id=?)";
-		System.out.println("");
-		// System.out.println(sql);
+		logger.info("");
+		// logger.info(sql);
 		Long a=null;
 		try (Connection con = DbConnection.getConnection();
 			PreparedStatement pst = con.prepareStatement(sql);) {
@@ -98,7 +109,9 @@ public Long getMobileNumber(int usersId) throws DbException {
 
 			}
 			}} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_SELECT);
+
 		}
 		return a;
 	}
@@ -106,12 +119,12 @@ public Long getMobileNumber(int usersId) throws DbException {
 
 
 @Override
-public List<TicketBooking> getUserBookedDetails(int userId) throws DbException {
+public List<TicketBooking> findAllByUserId(int userId) throws DbException {
 	
 	List<TicketBooking> list = new ArrayList<TicketBooking>();
 	String sql = "select * from booked where users_id=?";
-	// System.out.println(sql);
-	System.out.println("");
+	// logger.info(sql);
+	logger.info("");
 	try (	Connection con = DbConnection.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql);)
 	{
@@ -142,7 +155,9 @@ public List<TicketBooking> getUserBookedDetails(int userId) throws DbException {
 			list.add(tl);
 		}
 		}	} catch (SQLException e) {
-		e.printStackTrace();
+		logger.debug(e.getMessage());
+		throw new DbException(ErrorConstant.INVALID_SELECT);
+
 	}
 
 	return list;
@@ -151,9 +166,9 @@ public List<TicketBooking> getUserBookedDetails(int userId) throws DbException {
 
 
 @Override
-public void cancelTicket(String bookedId) throws DbException {
+public void updateBookedStatusByBookedId(String bookedId) throws DbException {
 	String sql = "update booked set booked_status='CANCELLED' where booked_id = ?";
-	System.out.println(sql);
+	logger.info(sql);
 	try(Connection connection =DbConnection.getConnection() ;
 
 	PreparedStatement pst = connection.prepareStatement(sql);)
@@ -161,10 +176,12 @@ public void cancelTicket(String bookedId) throws DbException {
 	pst.setString(1,bookedId);
 
 	int rows=pst.executeUpdate();
-	System.out.println(rows);
+	logger.info(""+rows);
 	}catch(SQLException e)
 	{
-		e.printStackTrace();
+		logger.debug(e.getMessage());
+		throw new DbException(ErrorConstant.INVALID_UPDATE);
+
 	}	
 }
 

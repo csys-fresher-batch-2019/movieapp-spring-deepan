@@ -14,11 +14,16 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BookedMail {
 	
+
+	private static final Logger logger = LoggerFactory.getLogger(BookedMail.class);
 	public static void send(final String from,final String password,String to,String sub,String Msg,int bookedId,int userId,int movieTheatreId,int bookedSeats,int amount) throws Exception
 	{  
-		System.out.println("Mail send");
+		logger.info("Mail send");
 		Properties props = new Properties();    
         props.put("mail.smtp.host", "smtp.gmail.com");    
         props.put("mail.smtp.socketFactory.port", "465");    
@@ -75,7 +80,7 @@ public class BookedMail {
 	}
     catch (MessagingException e) 
     {
-    	e.printStackTrace();
+    	logger.debug(e.getMessage());
     	throw new RuntimeException(e);
     }
 	}

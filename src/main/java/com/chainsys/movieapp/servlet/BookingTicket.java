@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.dao.impl.TicketBookingDAOImpl;
 import com.chainsys.movieapp.model.TicketBooking;
 
@@ -19,6 +22,12 @@ import com.chainsys.movieapp.model.TicketBooking;
  */
 @WebServlet("/BookingTicket")
 public class BookingTicket extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(BookingTicket.class);
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -28,12 +37,12 @@ public class BookingTicket extends HttpServlet {
 		int movieTheatreId = Integer.parseInt(request.getParameter("Movietheatreid"));
 		String showDate = request.getParameter("showdate");
 		// String amount=request.getParameter("amount");
-		System.out.println("Params:" + seats + "-" + movieTheatreId + "-" + showDate);
+		logger.info("Params:" + seats + "-" + movieTheatreId + "-" + showDate);
 		PrintWriter out = response.getWriter();
 		// Get data from session
 		HttpSession session = request.getSession();
 		Integer userId = (Integer) session.getAttribute("USER_ID");
-		System.out.println("UserId=" + userId);
+		logger.info("UserId=" + userId);
 
 		HttpSession ses = request.getSession();
 		ses.setAttribute("show_date", showDate);
@@ -54,16 +63,16 @@ public class BookingTicket extends HttpServlet {
 			out.print(movieTheatreId);
 			tb.setShowDate(LocalDate.parse(showDate));
 
-			int a = impl.getPrice(tb.getMovieTheaterId());
+			int a = impl.findPriceByMovieTheatreId(tb.getMovieTheaterId());
 			out.print(a);
 			tot = tb.getBookedSeats() * a;
 			tb.setAmount(tot);
 			HttpSession sesion = request.getSession();
 			sesion.setAttribute("tot_amt", tot);
-			impl.addBookingDetails(tb);
+			impl.save(tb);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 
 		response.sendRedirect("AmountPaid.jsp?totalAmount=" + tot);

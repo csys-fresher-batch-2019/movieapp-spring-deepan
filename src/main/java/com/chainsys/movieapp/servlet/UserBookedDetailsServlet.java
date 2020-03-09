@@ -35,9 +35,9 @@ public class UserBookedDetailsServlet extends HttpServlet {
 			TicketBookingDAOImpl obj = new TicketBookingDAOImpl();
 			List<TicketBooking> list = new ArrayList<TicketBooking>();
 			try {
-				list = obj.getUserBookedDetails(userId);
+				list = obj.findAllByUserId(userId);
 			} catch (DbException e) {
-				e.printStackTrace();
+				logger.debug(e.getMessage());
 			}
 			request.setAttribute("UserBookedDetails", list);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("UserBookedDetails.jsp");

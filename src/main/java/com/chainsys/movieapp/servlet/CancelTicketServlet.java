@@ -9,25 +9,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.dao.TicketBookingDAO;
 import com.chainsys.movieapp.dao.impl.TicketBookingDAOImpl;
 import com.chainsys.movieapp.util.DbException;
 
 @WebServlet("/CancelTicketServlet")
 public class CancelTicketServlet extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(CancelTicketServlet.class);
+
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String bookedId = request.getParameter("bookedId");
-		System.out.println(bookedId);
+		logger.info(bookedId);
 
 		TicketBookingDAO impl = new TicketBookingDAOImpl();
 		try {
-			impl.cancelTicket(bookedId);
+			impl.updateBookedStatusByBookedId(bookedId);
 		} catch (DbException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 
 		PrintWriter out = response.getWriter();

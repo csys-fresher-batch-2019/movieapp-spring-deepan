@@ -11,13 +11,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
 import com.chainsys.movieapp.model.MovieList;
 import com.chainsys.movieapp.util.DbException;
 
 @WebServlet("/AddMovieServlet")
 public class AddMovieServlet extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(AddMovieServlet.class);
+
 	private static final long serialVersionUID = 1L;
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -39,11 +45,11 @@ public class AddMovieServlet extends HttpServlet {
 
 		for (MovieList movie : List) {
 			try {
-				obj.addMovie(movie);
+				obj.save(movie);
 			} catch (DbException e) {
-				e.printStackTrace();
+				logger.debug(e.getMessage());
 			}
-			System.out.println(movie);
+			logger.info(""+movie);
 
 		}
 	}

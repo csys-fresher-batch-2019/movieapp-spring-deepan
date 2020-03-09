@@ -8,12 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.exception.BadCredentialsException;
 import com.chainsys.movieapp.service.AuthService;
 import com.chainsys.movieapp.service.ServiceException;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(Login.class);
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String status=null;
@@ -26,7 +31,7 @@ public class Login extends HttpServlet {
 			//Step 2: Call Service login
 			AuthService authService = new AuthService();
 			userId = authService.login(mail,pass);
-			System.out.println(userId);
+			logger.info(""+userId);
 			//Step 2.1 :If success store userid in session
 			HttpSession session = request.getSession();
 			session.setAttribute("USER_ID", userId);
@@ -34,7 +39,7 @@ public class Login extends HttpServlet {
 			response.sendRedirect("HomeMovies.jsp");
 			status="success";
 		} catch (BadCredentialsException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 			status="Invalid";
 			//response.sendRedirect("Login.jsp?errorMessage=Invalid Login");
 		} catch (ServiceException e) {
@@ -42,7 +47,7 @@ public class Login extends HttpServlet {
 			//response.sendRedirect("Login.jsp?errorMessage=Invalid Login");
 
 		}
-		System.out.println(status);
+		logger.info(status);
 		
 		//Struts
 		/*if(status.equals("success")) {

@@ -6,18 +6,7 @@ Integer userId = (Integer)session.getAttribute("USER_ID");
 <nav class="navbar navbar-expand-sm bg-dark">
 	<a class="navbar-brand" href="index.jsp">BookYourShows</a>
 	<!-- Links -->
-	<ul class="navbar-nav">
-
-
-		<li class="nav-item"><a class="nav-link" href="HomeMovies.jsp">Movies</a>
-		</li>
-
-
-
-
-
-	</ul>
-	<ul class="navbar-nav ml-auto">
+		<ul class="navbar-nav ml-auto">
 
 		<% if ( userId == null){ %>
 		<li class="nav-item"><a class="nav-link" href="Login.jsp">Login</a>

@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
 import com.chainsys.movieapp.dao.impl.UserInformationImpl;
 
 /**
@@ -17,6 +21,8 @@ import com.chainsys.movieapp.dao.impl.UserInformationImpl;
  */
 @WebServlet("/UpdatePass")
 public class UpdatePass extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(UpdatePass.class);
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -26,15 +32,15 @@ public class UpdatePass extends HttpServlet {
 		String email = (String) sess.getAttribute("email");
 
 		String password = request.getParameter("pass");
-		System.out.println(email + "-" + password);
+		logger.info(email + "-" + password);
 		try {
 
-			boolean msg = im.updatePassword(email, password);
+			boolean msg = im.updatePasswordByEmailId(email, password);
 			out.println("updated" + msg);
 			response.sendRedirect("Login.jsp");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 
 	}

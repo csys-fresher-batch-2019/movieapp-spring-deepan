@@ -7,15 +7,15 @@ import com.chainsys.movieapp.model.TheatreList;
 
 public interface TheatreListDAO {
 	
-    void addTheatreDetails(TheatreList list) throws DbException;
+    void save(TheatreList list) throws DbException;
     
-    void deleteTheatreDetails(int theatreId) throws DbException;
+    void deleteTheatreDetailsByTheatreId(int theatreId) throws DbException;
     
-    void updateTheatreRating(int theatreRating, String theatreName) throws DbException;
+    void updateTheatreRatingByTheatreName(int theatreRating, String theatreName) throws DbException;
     
-    List<TheatreList> allTheatreDetails() throws DbException;
+    List<TheatreList> findAllTheatreDetails() throws DbException;
 
-    List<TheatreList> getTheatreName(String theatreAddress) throws DbException;
+    List<TheatreList> findTheatreNameByTheatreAddress(String theatreAddress) throws DbException;
 
 	
 	

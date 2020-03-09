@@ -9,54 +9,57 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.dao.impl.BookedMail;
 import com.chainsys.movieapp.dao.impl.UserInformationImpl;
-import com.chainsys.movieapp.model.TicketBooking;
 import com.chainsys.movieapp.util.DbException;
 
 @WebServlet("/BookedMailSend")
 public class BookedMailSend extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(BookedMailSend.class);
+
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		TicketBooking tb = new TicketBooking();
 
 		HttpSession ses = request.getSession(false);
 		Integer userId = (Integer) ses.getAttribute("USER_ID");
-		System.out.println(userId);
+		logger.info(""+userId);
 		String seat = (String) ses.getAttribute("no_of_seats");
-		System.out.println(seat);
+		logger.info(seat);
 		Integer totalAmount = (Integer) ses.getAttribute("tot_amt");
-		System.out.println(totalAmount);
+		logger.info(""+totalAmount);
 		Integer movieTheatreId = (Integer) ses.getAttribute("movieTheatreId");
-		System.out.println(movieTheatreId);
+		logger.info(""+movieTheatreId);
 		Integer m = movieTheatreId;
 		Integer ns = Integer.parseInt(seat);
-		System.out.println(ns);
+		logger.info(""+ns);
 		
 		UserInformationImpl ui = new UserInformationImpl();
 		String Email = null;
 		try {
-			Email = ui.getEmailId(userId);
-			System.out.println(Email);
+			Email = ui.findEmailIdByUserId(userId);
+			logger.info(Email);
 		} catch (DbException e) {
 
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 		String s = request.getParameter("mail");
 		if (s.equals("yes")) {
 			try {
 
-				System.out.println();
+				
 				BookedMail.send("movieappservice@gmail.com", "Deepan@123", Email, "Booking Details",
 						"Successfully booked", 1, userId, m, ns, totalAmount);
-				System.out.println(Email + " Mail sent Successfully");
+				logger.info(Email + " Mail sent Successfully");
 				response.sendRedirect("HomeMovies.jsp");
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.debug(e.getMessage());
 			}
 
 		} else

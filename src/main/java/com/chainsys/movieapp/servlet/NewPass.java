@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
 import com.chainsys.movieapp.dao.impl.SendMailSSL;
 
 /**
@@ -17,6 +21,8 @@ import com.chainsys.movieapp.dao.impl.SendMailSSL;
 
 @WebServlet("/NewPass")
 public class NewPass extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(NewPass.class);
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -26,7 +32,7 @@ public class NewPass extends HttpServlet {
 			throws ServletException, IOException {
 		String otp = request.getParameter("otp");
 		String otp1 = SendMailSSL.emailOTP();
-		System.out.println("otp:" + otp1 + " " + otp);
+		logger.info("otp:" + otp1 + " " + otp);
 		PrintWriter out = response.getWriter();
 		if (otp1.equals(otp)) {
 			response.sendRedirect("UpdatePassword.jsp");

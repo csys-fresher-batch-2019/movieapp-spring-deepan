@@ -37,7 +37,7 @@ public class Registration extends HttpServlet {
 		UserInformationDAO dao = DAOFactory.getUserInformationDAO();
 
 		try {
-			List<UserInformation> list1 = dao.allUserDetails();
+			List<UserInformation> list1 = dao.findAllUserDetails();
 			for(UserInformation ui : list1) {
 				long m =ui.getMobileNum();
 				String email =ui.getEmailId();
@@ -53,7 +53,7 @@ public class Registration extends HttpServlet {
 			}
 			else {
 				for (UserInformation UI : list) {
-					dao.addUserInformation(UI);
+					dao.save(UI);
 					response.sendRedirect("Login.jsp");
 
 				}
@@ -63,7 +63,7 @@ public class Registration extends HttpServlet {
 			
 			out.println(user.getUserName() + " " + "inserted");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 
 	}

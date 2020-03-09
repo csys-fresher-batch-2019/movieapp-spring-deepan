@@ -7,6 +7,6 @@ import com.chainsys.movieapp.util.DbException;
 
 public interface SubMovieTheatreDAO {
 
-	public List<SubMovieTheatre> getAvailableSeats() throws DbException;
+	public List<SubMovieTheatre> findAvailableSeatsByMovieTheatreId() throws DbException;
 
 }

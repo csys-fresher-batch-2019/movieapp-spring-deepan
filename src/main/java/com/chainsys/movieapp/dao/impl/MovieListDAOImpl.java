@@ -5,25 +5,32 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.MovieListDAO;
 import com.chainsys.movieapp.model.MovieList;
 import com.chainsys.movieapp.util.DbConnection;
 import com.chainsys.movieapp.util.DbException;
+import com.chainsys.movieapp.util.ErrorConstant;
+
 
 public class MovieListDAOImpl implements MovieListDAO {
 
+	private static final Logger logger = LoggerFactory.getLogger(MovieListDAOImpl.class);
+	
+public void save(MovieList movie) throws DbException {
 	
 	
-public void addMovie(MovieList movie) throws DbException {
+	
 		
 		String sql = "insert into movie(movie_id,movie_name,movie_type,movie_language,movie_rating,movie_duration,released_date,image_url)values(movie_id_seq.nextval,?,?,?,?,?,?,?)";
-		System.out.println("");
-		//System.out.println(sql);
+		logger.info("");
+		//logger.info(sql);
 		try (	
 				Connection con = DbConnection.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql);)
@@ -36,20 +43,21 @@ public void addMovie(MovieList movie) throws DbException {
 			pst.setDate(6, Date.valueOf(movie.getReleasedDate()));
 			pst.setString(7, movie.getImageUrl());
 			int row = pst.executeUpdate();
-			System.out.println(row);
+			logger.info("No of rows inserted : "+row);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_ADD);
 		}
 
 	}
 	
 	
 
-public void updateMovieName(String movieName,String movieType,String movieLanguage,int movieRating,int movieDuration,String releasedDate, int movieId) throws DbException {
+public void update(String movieName,String movieType,String movieLanguage,int movieRating,int movieDuration,String releasedDate, int movieId) throws DbException {
 		
 		String sqlb = "update movie set movie_name=?,movie_type=?,movie_language=?,movie_rating=?,movie_duration=?,released_date=? where movie_id=?";
-		System.out.println("");
-		//System.out.println(sqlb);
+		logger.info("");
+		//logger.info(sqlb);
 		try (   Connection con = DbConnection.getConnection();
 				PreparedStatement pst = con.prepareStatement(sqlb);)
 		{
@@ -61,40 +69,44 @@ public void updateMovieName(String movieName,String movieType,String movieLangua
 			pst.setString(6, releasedDate);
 			pst.setInt(7, movieId);
 			int rowb = pst.executeUpdate();
-			System.out.println(rowb);
+			logger.info("row="+rowb);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_UPDATE);
+
 		}
 
 	}
 	
 	
 	
-public void deleteMovieList(int movieId) throws DbException {
+public void delete(int movieId) throws DbException {
 	
 		String sql = "delete from movie where movie_id=?";
-		System.out.println("");
-		//System.out.println(sql);
+		logger.info("");
+		//logger.info(sql);
 		try( 	Connection con = DbConnection.getConnection();
                 PreparedStatement stmt = con.prepareStatement(sql);
 ) {
 			stmt.setInt(1,movieId);
 			int row = stmt.executeUpdate();
-			System.out.println(row);
+			logger.info(""+row);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_DELETE);
+
 		}
 
 	}
 
 	
 
-public List<MovieList> getmovieName(String movieLanguage,String movieType) throws DbException {
+public List<MovieList> findMovieNameByLanguageAndType(String movieLanguage,String movieType) throws DbException {
 		
 		List<MovieList> list=new ArrayList<MovieList>();
 		String sqla = "Select movie_name from movie where movie_language=? and movie_type=?";
-		//System.out.println(sqla);
-		System.out.println("");
+		//logger.info(sqla);
+		logger.info("");
 		try (	Connection con = DbConnection.getConnection();
 				PreparedStatement stmta = con.prepareStatement(sqla);)
 		{
@@ -111,7 +123,9 @@ public List<MovieList> getmovieName(String movieLanguage,String movieType) throw
 				list.add(ml);
 			}
 		} }catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_SELECT);
+
 		}
 		return list;
 	}
@@ -119,12 +133,12 @@ public List<MovieList> getmovieName(String movieLanguage,String movieType) throw
 
     
 
-public List<MovieList> allMovieList() throws DbException {
+public List<MovieList> findByReleasedDate() throws DbException {
 		
 		List<MovieList> list = new ArrayList<MovieList>();
 		String sqla = "select movie_id,movie_name,released_date,image_url,movie_language,movie_type,movie_rating,movie_duration from movie order by released_date desc";
-		System.out.println("");
-		//System.out.println(sqla);
+		logger.info("");
+		//logger.info(sqla);
 		try(	Connection con = DbConnection.getConnection();
 				PreparedStatement stmta = con.prepareStatement(sqla);)
 		{
@@ -148,7 +162,7 @@ public List<MovieList> allMovieList() throws DbException {
 				list.add(ml);
 			}
 			}	} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 			throw new DbException("Unable to get movie list");
 		}
 		return list;
@@ -157,12 +171,12 @@ public List<MovieList> allMovieList() throws DbException {
 
 		
 
-public List<MovieList> allMovieDetails(String movieName) throws DbException {
+public List<MovieList> findByMovieName(String movieName) throws DbException {
 
 		List<MovieList> list = new ArrayList<MovieList>();
 		String sqla = "Select * from movie where movie_name=?";
-		System.out.println(sqla);
-		//System.out.println(sqla);
+		logger.info(sqla);
+		//logger.info(sqla);
 		try (	Connection con = DbConnection.getConnection();
 				PreparedStatement stmta = con.prepareStatement(sqla);)
 		{
@@ -184,7 +198,9 @@ public List<MovieList> allMovieDetails(String movieName) throws DbException {
 				list.add(ml);
 			}
 			}} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
+			throw new DbException(ErrorConstant.INVALID_SELECT);
+
 		}
 		return list;
 	}

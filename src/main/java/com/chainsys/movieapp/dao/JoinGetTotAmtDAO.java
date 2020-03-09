@@ -7,5 +7,5 @@ import com.chainsys.movieapp.model.JoinGetTotalAmount;
 
 public interface JoinGetTotAmtDAO {
 
-	public List <JoinGetTotalAmount> getTotalAmount() throws DbException;
+	public List <JoinGetTotalAmount> findTotalAmountByMovieTheatreId() throws DbException;
 }

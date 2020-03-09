@@ -23,7 +23,7 @@ public class MovieAppController {
 	@GetMapping("/allMovieList")
 	public List<MovieList> allMovieList() throws DbException
 	{
-		List<MovieList> m = mld.allMovieList();
+		List<MovieList> m = mld.findByReleasedDate();
 		return m;
 		
 	}
@@ -37,7 +37,7 @@ public class MovieAppController {
 	user.setMobileNum(MobileNumber);
 	user.setGender(gender);
 	user.setEpassword(Password);
-	int m=udao.addUserInformation(user);
+	int m=udao.save(user);
 	if(m==1) {
 		msg.setInfoMessage("Successfully Registered");
 	}

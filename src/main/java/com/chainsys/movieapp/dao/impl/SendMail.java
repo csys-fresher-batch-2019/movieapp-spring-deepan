@@ -60,7 +60,7 @@ public class SendMail
 	    	message.setContent(multipart );  
 	    	Transport.send(message);    
 	     
-	     	//System.out.println("Enter the OTP");    
+	     	//logger.info("Enter the OTP");    
 	}
     catch (MessagingException e) 
     {
