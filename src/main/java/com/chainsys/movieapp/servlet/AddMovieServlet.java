@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
 import com.chainsys.movieapp.model.MovieList;
-import com.chainsys.movieapp.util.DbException;
+import com.chainsys.movieapp.exception.DbException;
 
 @WebServlet("/AddMovieServlet")
 public class AddMovieServlet extends HttpServlet {

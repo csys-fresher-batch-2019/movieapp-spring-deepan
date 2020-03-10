@@ -1,6 +1,6 @@
 package com.chainsys.movieapp.dao;
 
-import com.chainsys.movieapp.util.DbException;
+import com.chainsys.movieapp.exception.DbException;
 
 import java.util.List;
 

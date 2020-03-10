@@ -13,7 +13,7 @@ import com.chainsys.movieapp.dto.Messagedto;
 import com.chainsys.movieapp.factory.DAOFactory;
 import com.chainsys.movieapp.model.MovieList;
 import com.chainsys.movieapp.model.UserInformation;
-import com.chainsys.movieapp.util.DbException;
+import com.chainsys.movieapp.exception.DbException;
 
 @RestController
 @RequestMapping("api")

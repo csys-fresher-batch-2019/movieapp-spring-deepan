@@ -12,9 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.dao.impl.TicketBookingDAOImpl;
 import com.chainsys.movieapp.model.TicketBooking;
-import com.chainsys.movieapp.util.DbException;
+import com.chainsys.movieapp.exception.DbException;
 
 /**
  * Servlet implementation class UserBookedDetailsServlet
@@ -22,6 +25,8 @@ import com.chainsys.movieapp.util.DbException;
 @WebServlet("/UserBookedDetailsServlet")
 public class UserBookedDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(UpdatePass.class);
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

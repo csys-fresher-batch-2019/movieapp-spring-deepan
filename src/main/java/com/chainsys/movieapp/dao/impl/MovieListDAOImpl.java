@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import com.chainsys.movieapp.dao.MovieListDAO;
 import com.chainsys.movieapp.model.MovieList;
 import com.chainsys.movieapp.util.DbConnection;
-import com.chainsys.movieapp.util.DbException;
-import com.chainsys.movieapp.util.ErrorConstant;
+import com.chainsys.movieapp.exception.DbException;
+import com.chainsys.movieapp.exception.ErrorConstant;
 
 
 public class MovieListDAOImpl implements MovieListDAO {

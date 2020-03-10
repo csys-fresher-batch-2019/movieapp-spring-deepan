@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.model.UserInformation;
 import com.chainsys.movieapp.util.DbConnection;
-import com.chainsys.movieapp.util.DbException;
-import com.chainsys.movieapp.util.ErrorConstant;
+import com.chainsys.movieapp.exception.DbException;
+import com.chainsys.movieapp.exception.ErrorConstant;
 
 public class UserInformationImpl implements UserInformationDAO {
 	private static final Logger logger = LoggerFactory.getLogger(UserInformationImpl.class);

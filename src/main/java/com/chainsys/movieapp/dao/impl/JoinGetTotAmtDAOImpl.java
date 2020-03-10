@@ -15,8 +15,8 @@ import com.chainsys.movieapp.util.DbConnection;
 import com.chainsys.movieapp.dao.JoinGetTotAmtDAO;
 import com.chainsys.movieapp.model.JoinGetTotalAmount;
 
-import com.chainsys.movieapp.util.DbException;
-import com.chainsys.movieapp.util.ErrorConstant;
+import com.chainsys.movieapp.exception.DbException;
+import com.chainsys.movieapp.exception.ErrorConstant;
 
 public class JoinGetTotAmtDAOImpl implements JoinGetTotAmtDAO{
 	private static final Logger logger = LoggerFactory.getLogger(JoinGetTotAmtDAOImpl.class);

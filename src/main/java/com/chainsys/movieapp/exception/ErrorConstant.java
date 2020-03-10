@@ -1,4 +1,4 @@
-package com.chainsys.movieapp.util;
+package com.chainsys.movieapp.exception;
 
 public class ErrorConstant {
 	

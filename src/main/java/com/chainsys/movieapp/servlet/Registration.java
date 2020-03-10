@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.factory.DAOFactory;
 import com.chainsys.movieapp.model.UserInformation;
@@ -21,6 +24,8 @@ import com.chainsys.movieapp.model.UserInformation;
  */
 @WebServlet("/Registration")
 public class Registration extends HttpServlet {
+	private static final Logger logger = LoggerFactory.getLogger(UpdatePass.class);
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

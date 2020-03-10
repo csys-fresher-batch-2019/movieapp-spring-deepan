@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.TicketBookingDAO;
 import com.chainsys.movieapp.dao.impl.TicketBookingDAOImpl;
-import com.chainsys.movieapp.util.DbException;
+import com.chainsys.movieapp.exception.DbException;
 
 @WebServlet("/CancelTicketServlet")
 public class CancelTicketServlet extends HttpServlet {

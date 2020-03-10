@@ -26,7 +26,7 @@ String movieIdStr = request.getParameter("movieId");
 int movieId = Integer.parseInt(movieIdStr);
 
 MovieTheatreDAO dao = new MovieTheatreDAOImpl();
-List<MovieTheatre> list = dao.getActiveTheatreDetails(movieId);
+List<MovieTheatre> list = dao.findActiveTheatreByTheatreIdAndMovieId(movieId);
 %>
 	<div class="container">
 		<h3>Movies List</h3>

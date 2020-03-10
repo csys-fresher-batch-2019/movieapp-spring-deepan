@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import com.chainsys.movieapp.dao.MovieTheatreDAO;
 import com.chainsys.movieapp.model.MovieTheatre;
 import com.chainsys.movieapp.util.DbConnection;
-import com.chainsys.movieapp.util.DbException;
-import com.chainsys.movieapp.util.ErrorConstant;
+import com.chainsys.movieapp.exception.DbException;
+import com.chainsys.movieapp.exception.ErrorConstant;
 
 public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 	private static final Logger logger = LoggerFactory.getLogger(MovieTheatreDAOImpl.class);
