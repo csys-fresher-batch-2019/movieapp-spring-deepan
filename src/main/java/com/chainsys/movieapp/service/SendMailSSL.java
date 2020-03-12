@@ -1,4 +1,4 @@
-package com.chainsys.movieapp.dao.impl;
+package com.chainsys.movieapp.service;
 
 import java.io.IOException;
 import java.util.Random;

@@ -1,6 +1,6 @@
 package com.chainsys.movieapp.model;
 
-public class JoinGetTotalAmount {
+public class MovieTheatreBookingDTO {
 
 	private int movieTheatreId;
 	private int movieId;

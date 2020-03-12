@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.chainsys.movieapp.exception.DbException;
+
 public class DbConnection {
 	
-	public static Connection getConnection(){
+	public static Connection getConnection() throws DbException{
 		
 		Connection connection=null;
 		try {
@@ -18,11 +20,11 @@ public class DbConnection {
 
 		}
 		catch(ClassNotFoundException e) {
-		throw new RuntimeException("Driver class not found");
+		throw new DbException("Driver class not found");
 
 		}catch(SQLException e)
 		{
-		throw new RuntimeException("invalid DB credentials"+e.getMessage());
+		throw new DbException("invalid DB credentials"+e.getMessage());
 
 		}
 

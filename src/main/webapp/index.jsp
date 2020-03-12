@@ -1,5 +1,8 @@
 <html>
 <body>
-	<jsp:include page="HomeMovies.jsp"></jsp:include>
+<%
+response.sendRedirect("HomeMovies");
+%>
+	
 </body>
 </html>

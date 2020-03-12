@@ -2,6 +2,7 @@ package com.chainsys.movieapp.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,19 +12,20 @@ import com.chainsys.movieapp.dao.MovieListDAO;
 import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.dto.Messagedto;
 import com.chainsys.movieapp.factory.DAOFactory;
-import com.chainsys.movieapp.model.MovieList;
+import com.chainsys.movieapp.model.Movie;
 import com.chainsys.movieapp.model.UserInformation;
 import com.chainsys.movieapp.exception.DbException;
 
 @RestController
 @RequestMapping("api")
 public class MovieAppController {
-	MovieListDAO mld = DAOFactory.getMovieListDAO();
+	@Autowired
+	MovieListDAO mld;
 	UserInformationDAO udao=DAOFactory.getUserInformationDAO();
 	@GetMapping("/allMovieList")
-	public List<MovieList> allMovieList() throws DbException
+	public List<Movie> allMovieList() throws DbException
 	{
-		List<MovieList> m = mld.findByReleasedDate();
+		List<Movie> m = mld.findAll();
 		return m;
 		
 	}

@@ -1,14 +1,14 @@
 package com.chainsys.movieapp.model;
 
-public class SubMovieTheatre {
+public class MovieTheatreDTO {
 	private String movieName;
 	private String theatreName;
 	private int availableSeats;
-	
+
 	@Override
 	public String toString() {
-		return "SubMovieTheatre [movieName=" + getMovieName() + ", theatreName=" + getTheatreName() + ", availableSeats="
-				+ getAvailableSeats() + "]";
+		return "SubMovieTheatre [movieName=" + getMovieName() + ", theatreName=" + getTheatreName()
+				+ ", availableSeats=" + getAvailableSeats() + "]";
 	}
 
 	/**
@@ -19,7 +19,8 @@ public class SubMovieTheatre {
 	}
 
 	/**
-	 * @param movieName the movieName to set
+	 * @param movieName
+	 *            the movieName to set
 	 */
 	public void setMovieName(String movieName) {
 		this.movieName = movieName;
@@ -33,7 +34,8 @@ public class SubMovieTheatre {
 	}
 
 	/**
-	 * @param theatreName the theatreName to set
+	 * @param theatreName
+	 *            the theatreName to set
 	 */
 	public void setTheatreName(String theatreName) {
 		this.theatreName = theatreName;
@@ -47,7 +49,8 @@ public class SubMovieTheatre {
 	}
 
 	/**
-	 * @param availableSeats the availableSeats to set
+	 * @param availableSeats
+	 *            the availableSeats to set
 	 */
 	public void setAvailableSeats(int availableSeats) {
 		this.availableSeats = availableSeats;

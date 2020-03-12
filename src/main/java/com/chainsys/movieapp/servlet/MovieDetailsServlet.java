@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
-import com.chainsys.movieapp.model.MovieList;
+import com.chainsys.movieapp.model.Movie;
 
 @WebServlet("/MovieDetailsServlet")
 public class MovieDetailsServlet extends HttpServlet {
@@ -28,7 +28,7 @@ public class MovieDetailsServlet extends HttpServlet {
 		MovieListDAOImpl obj = new MovieListDAOImpl();
 		String movieName = request.getParameter("movieName");
 		logger.info(movieName);
-		List<MovieList> list = new ArrayList<MovieList>();
+		List<Movie> list = new ArrayList<Movie>();
 		try {
 
 			list = obj.findByMovieName(movieName);

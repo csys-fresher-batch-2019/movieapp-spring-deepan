@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
-import com.chainsys.movieapp.dao.impl.UserInformationImpl;
+import com.chainsys.movieapp.dao.impl.UserInformationDAOImpl;
 
 /**
  * Servlet implementation class UpdatePass
@@ -26,7 +26,7 @@ public class UpdatePass extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		UserInformationImpl im = new UserInformationImpl();
+		UserInformationDAOImpl im = new UserInformationDAOImpl();
 		PrintWriter out = response.getWriter();
 		HttpSession sess = request.getSession(false);
 		String email = (String) sess.getAttribute("email");
@@ -35,7 +35,7 @@ public class UpdatePass extends HttpServlet {
 		logger.info(email + "-" + password);
 		try {
 
-			boolean msg = im.updatePasswordByEmailId(email, password);
+			boolean msg = im.update(email, password);
 			out.println("updated" + msg);
 			response.sendRedirect("Login.jsp");
 

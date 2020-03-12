@@ -12,14 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.MovieTheatreDAO;
+import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.MovieTheatre;
 import com.chainsys.movieapp.util.DbConnection;
-import com.chainsys.movieapp.exception.DbException;
-import com.chainsys.movieapp.exception.ErrorConstant;
 
 public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 	private static final Logger logger = LoggerFactory.getLogger(MovieTheatreDAOImpl.class);
-
 
 	public void save(MovieTheatre theatre) throws DbException {
 		String sql = "insert into movie_theatre(movie_theatre_id,movie_id,theatre_id,active,price,movie_timing)values(movie_theatre_id_seq.nextval,?,?,?,?,?)";
@@ -32,11 +30,10 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 			pst.setInt(4, theatre.getPrice());
 			pst.setString(5, theatre.getMovieTiming().toString());
 			int row = pst.executeUpdate();
-			logger.info(""+row);
+			logger.info("" + row);
 			con.close();
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_ADD);
+			throw new DbException("Unable to add MovieTheatre", e);
 
 		}
 
@@ -51,31 +48,26 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 			pst.setInt(2, movieTheatreId);
 
 			int row = pst.executeUpdate();
-			logger.info(""+row);
+			logger.info("" + row);
 			con.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_UPDATE);
+			throw new DbException("Unable to update Movie Timing", e);
 
 		}
 
 	}
 
-	public void deleteMovieTheatreByMovieTheatreId(int movieTheatreId) throws DbException {
+	public void delete(int movieTheatreId) throws DbException {
 		String sql = "delete from  movie_theatre where movie_theatre_id=?";
 		logger.info("");
 		// logger.info(sql);
-		try (Connection con = DbConnection.getConnection(); 
-				PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, movieTheatreId);
 			int row = pst.executeUpdate();
-			logger.info(""+row);
+			logger.info("" + row);
 			con.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_DELETE);
+			throw new DbException("Unable to delete Movie Theatre", e);
 
 		}
 
@@ -83,70 +75,63 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 
 	public List<MovieTheatre> findByMovieId(int movieId) throws DbException {
 
-		List<MovieTheatre> list = new ArrayList<MovieTheatre>();
+		List<MovieTheatre> list = new ArrayList<>();
 		String sql = "Select movie_theatre_id,movie_id,theatre_id,active,price,movie_timing from movie_theatre where movie_id=?";
 		logger.info("");
 		// logger.info(sql);
-		try (Connection con = DbConnection.getConnection(); 
-				PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, movieId);
 			try (ResultSet rs = pst.executeQuery();) {
 				while (rs.next()) {
-					MovieTheatre ml = new MovieTheatre();
-					ml.setMovieTheatreId(rs.getInt("movie_theatre_id"));
-					ml.setMovieId(rs.getInt("movie_id"));
-					ml.setTheatreId(rs.getInt("theatre_id"));
-					ml.setActive(rs.getInt("active"));
-					ml.setPrice(rs.getInt("price"));
-					ml.setMovieTiming(LocalTime.parse(rs.getString("movie_timing")));
-					list.add(ml);
+					MovieTheatre movieTheatre = new MovieTheatre();
+					movieTheatre.setMovieTheatreId(rs.getInt("movie_theatre_id"));
+					movieTheatre.setMovieId(rs.getInt("movie_id"));
+					movieTheatre.setTheatreId(rs.getInt("theatre_id"));
+					movieTheatre.setActive(rs.getInt("active"));
+					movieTheatre.setPrice(rs.getInt("price"));
+					movieTheatre.setMovieTiming(LocalTime.parse(rs.getString("movie_timing")));
+					list.add(movieTheatre);
 				}
 			}
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_SELECT);
+			throw new DbException("Unable to find Movie Theatre Details", e);
 
 		}
 		return list;
 
 	}
 
-	public List<MovieTheatre> findActiveTheatreByTheatreIdAndMovieId(int movieId) throws DbException {
-		List<MovieTheatre> list = new ArrayList<MovieTheatre>();
+	public List<MovieTheatre> findActiveTheatreByMovieId(int movieId) throws DbException {
+		List<MovieTheatre> list = new ArrayList<>();
 		String sql = "Select m.movie_id,m.movie_theatre_id,m.theatre_id,t.theatre_name,m.active,t.theatre_address,t.theatre_rating,m.price,m.movie_timing,t.theatre_image_url from movie_theatre m, theatre t where m.theatre_id = t.theatre_id and movie_id=?";
 		logger.info("");
 		// logger.info(sql);
-		try (Connection con = DbConnection.getConnection(); 
-				PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, movieId);
 			try (ResultSet rs = pst.executeQuery();) {
 				while (rs.next()) {
-					MovieTheatre ml = new MovieTheatre();
-					ml.setMovieId(rs.getInt("movie_id"));
-					ml.setMovieTheatreId(rs.getInt("movie_theatre_id"));
-					ml.setTheatreId(rs.getInt("theatre_id"));
-					ml.setTheatreName(rs.getString("theatre_name"));
-					ml.setActive(rs.getInt("active"));
-					ml.setTheatreAddress(rs.getString("theatre_address"));
-					ml.setTheatreRating(rs.getInt("theatre_rating"));
-					ml.setPrice(rs.getInt("price"));
-					ml.setTheatreImageUrl(rs.getString("theatre_image_url"));
-					ml.setMovieTiming(LocalTime.parse(rs.getString("movie_timing")));
-					list.add(ml);
+					MovieTheatre movieTheatre = new MovieTheatre();
+					movieTheatre.setMovieId(rs.getInt("movie_id"));
+					movieTheatre.setMovieTheatreId(rs.getInt("movie_theatre_id"));
+					movieTheatre.setTheatreId(rs.getInt("theatre_id"));
+					movieTheatre.setTheatreName(rs.getString("theatre_name"));
+					movieTheatre.setActive(rs.getInt("active"));
+					movieTheatre.setTheatreAddress(rs.getString("theatre_address"));
+					movieTheatre.setTheatreRating(rs.getInt("theatre_rating"));
+					movieTheatre.setPrice(rs.getInt("price"));
+					movieTheatre.setTheatreImageUrl(rs.getString("theatre_image_url"));
+					movieTheatre.setMovieTiming(LocalTime.parse(rs.getString("movie_timing")));
+					list.add(movieTheatre);
 				}
 			}
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_SELECT);
+			throw new DbException("Unable to find Active Theatre Details", e);
 
 		}
-		
-		
-		
-		List<MovieTheatre> activeList = new ArrayList<MovieTheatre>();
+		List<MovieTheatre> activeList = new ArrayList<>();
 		for (MovieTheatre movieTheatre : list) {
-			
-			if ( movieTheatre.getActive() ==1) {
+
+			if (movieTheatre.getActive() == 1) {
 				activeList.add(movieTheatre);
 			}
 		}
@@ -158,43 +143,40 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 		String sql = "update movie_theatre set price=? where movie_theatre_id=?";
 		logger.info("");
 		// logger.info(sql);
-		try (Connection con = DbConnection.getConnection(); 
-				PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, price);
 			pst.setInt(2, movieTheatreId);
 			int row = pst.executeUpdate();
-			logger.info(""+row);
+			logger.info("" + row);
 			con.close();
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_UPDATE);
+			throw new DbException("Unable to update Movie Price", e);
 
 		}
 
 	}
 
 	public List<MovieTheatre> findMovieIdAndTimingsByTheatreName(String theatreName) throws DbException {
-		List<MovieTheatre> list = new ArrayList<MovieTheatre>();
+		List<MovieTheatre> list = new ArrayList<>();
 		String sql = "select movie_id,movie_timing from movie_theatre where theatre_id in(select theatre_id from theatre where theatre_name=?)";
 		logger.info(sql);
-		try (Connection con = DbConnection.getConnection();
-				PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			logger.info("deepan");
 			pst.setString(1, theatreName);
-			
-			try(	ResultSet rs = pst.executeQuery();)
-			{
-			while (rs.next()) {
-				MovieTheatre tl = new MovieTheatre();
-				tl.setMovieId(rs.getInt("movie_id"));
-				tl.setMovieTiming(LocalTime.parse(rs.getString("movie_timing")));
-				list.add(tl);
+
+			try (ResultSet rs = pst.executeQuery();) {
+				while (rs.next()) {
+					MovieTheatre movieTheatre = new MovieTheatre();
+					movieTheatre.setMovieId(rs.getInt("movie_id"));
+					movieTheatre.setMovieTiming(LocalTime.parse(rs.getString("movie_timing")));
+					list.add(movieTheatre);
+				}
+				con.close();
 			}
-			con.close();
-			}} catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_SELECT);
+			throw new DbException("Unable to find Movie Timing and Id", e);
 
 		}
 
@@ -202,27 +184,26 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 	}
 
 	public List<MovieTheatre> findSeatsByMovieId(int movieId) throws DbException {
-		List<MovieTheatre> list = new ArrayList<MovieTheatre>();
+		List<MovieTheatre> list = new ArrayList<>();
 		String sql = "Select number_seats from movie_theatre where movie_id=?";
 		logger.info(sql);
-		try (Connection con = DbConnection.getConnection();
-				PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, movieId);
-			try(ResultSet rs = pst.executeQuery();){
-			while (rs.next()) {
-				MovieTheatre ml = new MovieTheatre();
-				ml.setMovieTheatreId(rs.getInt("movie_theatre_id"));
-				ml.setMovieId(rs.getInt("movie_id"));
-				ml.setTheatreId(rs.getInt("theatre_id"));
-				ml.setActive(rs.getInt("active"));
-				ml.setPrice(rs.getInt("price"));
-				ml.setMovieTiming(rs.getTime("movie_timing").toLocalTime());
-				list.add(ml);
+			try (ResultSet rs = pst.executeQuery();) {
+				while (rs.next()) {
+					MovieTheatre movieTheatre = new MovieTheatre();
+					movieTheatre.setMovieTheatreId(rs.getInt("movie_theatre_id"));
+					movieTheatre.setMovieId(rs.getInt("movie_id"));
+					movieTheatre.setTheatreId(rs.getInt("theatre_id"));
+					movieTheatre.setActive(rs.getInt("active"));
+					movieTheatre.setPrice(rs.getInt("price"));
+					movieTheatre.setMovieTiming(rs.getTime("movie_timing").toLocalTime());
+					list.add(movieTheatre);
+				}
+				con.close();
 			}
-			con.close();
-			}} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_SELECT);
+		} catch (SQLException e) {
+			throw new DbException("Unable to find booked seats", e);
 
 		}
 		return list;
@@ -237,11 +218,10 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 			pst.setInt(1, active);
 			pst.setInt(2, movieTheatreId);
 			int row = pst.executeUpdate();
-			logger.info(""+row);
+			logger.info("" + row);
 			con.close();
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_UPDATE);
+			throw new DbException("Unable to update Movie Status", e);
 
 		}
 	}

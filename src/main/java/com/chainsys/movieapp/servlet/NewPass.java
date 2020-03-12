@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
-import com.chainsys.movieapp.dao.impl.SendMailSSL;
+import com.chainsys.movieapp.service.SendMailSSL;
 
 /**
  * Servlet implementation class NewPass

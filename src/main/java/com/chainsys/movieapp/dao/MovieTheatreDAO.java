@@ -11,7 +11,7 @@ public interface MovieTheatreDAO {
 	
 	void updateMovieTimingByMovieTheatreId(int movieTheatreId,String movieTiming) throws DbException;
 	
-	void deleteMovieTheatreByMovieTheatreId(int movieTheatreId) throws DbException;
+	void delete(int movieTheatreId) throws DbException;
 	
 	void updateMoviePriceByMovieTheatreId(int price,int movieTheatreId) throws DbException;
 	
@@ -23,5 +23,5 @@ public interface MovieTheatreDAO {
 
     List<MovieTheatre> findSeatsByMovieId(int movieId) throws DbException ;
     
-    List<MovieTheatre> findActiveTheatreByTheatreIdAndMovieId(int movieId) throws DbException;
+    List<MovieTheatre> findActiveTheatreByMovieId(int movieId) throws DbException;
 }

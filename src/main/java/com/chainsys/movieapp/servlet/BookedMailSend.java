@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.chainsys.movieapp.dao.impl.BookedMail;
-import com.chainsys.movieapp.dao.impl.UserInformationImpl;
+import com.chainsys.movieapp.service.BookedMail;
+import com.chainsys.movieapp.dao.impl.UserInformationDAOImpl;
 import com.chainsys.movieapp.exception.DbException;
 
 @WebServlet("/BookedMailSend")
@@ -39,7 +39,7 @@ public class BookedMailSend extends HttpServlet {
 		Integer ns = Integer.parseInt(seat);
 		logger.info(""+ns);
 		
-		UserInformationImpl ui = new UserInformationImpl();
+		UserInformationDAOImpl ui = new UserInformationDAOImpl();
 		String Email = null;
 		try {
 			Email = ui.findEmailIdByUserId(userId);

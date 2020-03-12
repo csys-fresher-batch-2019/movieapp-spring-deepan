@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
-import com.chainsys.movieapp.model.MovieList;
+import com.chainsys.movieapp.model.Movie;
 import com.chainsys.movieapp.exception.DbException;
 
 @WebServlet("/AddMovieServlet")
@@ -28,9 +28,9 @@ public class AddMovieServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		List<MovieList> List = new ArrayList<MovieList>();
+		List<Movie> List = new ArrayList<Movie>();
 
-		MovieList ml = new MovieList();
+		Movie ml = new Movie();
 
 		ml.setMovieName(request.getParameter("Moviename"));
 		ml.setMovieDuration(Integer.parseInt(request.getParameter("duration")));
@@ -43,7 +43,7 @@ public class AddMovieServlet extends HttpServlet {
 
 		MovieListDAOImpl obj = new MovieListDAOImpl();
 
-		for (MovieList movie : List) {
+		for (Movie movie : List) {
 			try {
 				obj.save(movie);
 			} catch (DbException e) {

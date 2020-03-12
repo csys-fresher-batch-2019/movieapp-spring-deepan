@@ -21,17 +21,12 @@
 
 
 
-	<%
-String movieIdStr = request.getParameter("movieId");
-int movieId = Integer.parseInt(movieIdStr);
-
-MovieTheatreDAO dao = new MovieTheatreDAOImpl();
-List<MovieTheatre> list = dao.findActiveTheatreByTheatreIdAndMovieId(movieId);
-%>
+	
 	<div class="container">
 		<h3>Movies List</h3>
 		<div class="row">
 			<% 
+			List<MovieTheatre> list=(List<MovieTheatre>)request.getAttribute("Movie_theatre");
 for(MovieTheatre m: list)
 {%>
 			<div class="col">

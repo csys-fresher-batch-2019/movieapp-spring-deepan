@@ -11,178 +11,152 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.chainsys.movieapp.dao.TicketBookingDAO;
+import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.TicketBooking;
 import com.chainsys.movieapp.util.DbConnection;
-import com.chainsys.movieapp.exception.DbException;
-import com.chainsys.movieapp.exception.ErrorConstant;
-
+@Repository
 public class TicketBookingDAOImpl implements TicketBookingDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(TicketBookingDAOImpl.class);
 
-	
-public void save(TicketBooking booked) throws DbException {
+	public void save(TicketBooking booked) throws DbException {
 		String sql = "insert into booked(movie_theatre_id,booked_id,users_id,booked_seats,amount,show_date)values(?,booked_id.nextval,?,?,?,?)";
 		// logger.info(sql);
-		try (Connection con = DbConnection.getConnection(); 
-			 PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, booked.getMovieTheaterId());
 			// pst.setInt(2,booked.bookedId);
 			pst.setInt(2, booked.getUsersId());
 			pst.setInt(3, booked.getBookedSeats());
 			pst.setInt(4, booked.getAmount());
-			//pst.setLong(5, booked.getMobileNum());
-			pst.setDate(5,Date.valueOf( booked.getShowDate()));
+			// pst.setLong(5, booked.getMobileNum());
+			pst.setDate(5, Date.valueOf(booked.getShowDate()));
 			pst.executeUpdate();
-			//logger.info(row);
+			// logger.info(row);
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_ADD);
+			throw new DbException("Unable to book the tickets", e);
 
 		}
 
 	}
 
-	
-
-public void deleteBookingDetailsByUserId(int usersId) throws DbException {
+	public void delete(int usersId) throws DbException {
 		String sql = "delete from booked where users_id=?";
 		// logger.info(sql);
-		try (Connection con = DbConnection.getConnection(); 
-			 PreparedStatement pst = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, usersId);
 			int row = pst.executeUpdate();
-			logger.info(""+row);
+			logger.info("" + row);
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_DELETE);
+			throw new DbException("Unable to delete booked details", e);
 
 		}
 
 	}
 
-	
-
-public int findPriceByMovieTheatreId(int movieTheatreId) throws DbException {
+	public int findPriceByMovieTheatreId(int movieTheatreId) throws DbException {
 		String sql = "Select price from movie_theatre where movie_theatre_id=?";
 		logger.info("");
 		// logger.info(sql);
-		int a=0;
-		try (Connection con = DbConnection.getConnection(); 
-			 PreparedStatement pst = con.prepareStatement(sql))
-		{
-			
+		int price = 0;
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+
 			pst.setInt(1, movieTheatreId);
-		try(ResultSet rs = pst.executeQuery())
-			  {
-			
-			
-			if (rs.next()) {
-				 a = rs.getInt("price");
+			try (ResultSet rs = pst.executeQuery()) {
+
+				if (rs.next()) {
+					price = rs.getInt("price");
+				}
+				// return a;
 			}
-			//return a;
-		}} catch (SQLException e) {
-			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_SELECT);
+		} catch (SQLException e) {
+			throw new DbException("Unable to find Price", e);
 
 		}
-		return a;
+		return price;
 
 	}
 
-	
-
-public Long findMobileNumberByUserId(int usersId) throws DbException {
+	public Long findMobileNumberByUserId(int usersId) throws DbException {
 		String sql = "select mobile_num from users where user_id in (select users_id from booked where users_id=?)";
 		logger.info("");
 		// logger.info(sql);
-		Long a=null;
-		try (Connection con = DbConnection.getConnection();
-			PreparedStatement pst = con.prepareStatement(sql);) {
+		Long mobileNo = null;
+		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, usersId);
-			a = (long) 0;
-			try(ResultSet rs = pst.executeQuery();){
-			if (rs.next()) {
-				a = rs.getLong("mobile_num");
+			mobileNo = (long) 0;
+			try (ResultSet rs = pst.executeQuery();) {
+				if (rs.next()) {
+					mobileNo = rs.getLong("mobile_num");
 
+				}
 			}
-			}} catch (SQLException e) {
+		} catch (SQLException e) {
+			throw new DbException("Unable to find Mobile Number", e);
+
+		}
+		return mobileNo;
+	}
+
+	@Override
+	public List<TicketBooking> findAllByUserId(int userId) throws DbException {
+
+		List<TicketBooking> list = new ArrayList<>();
+		String sql = "select booked_id,movie_theatre_id,users_id,booked_seats,show_date from booked where users_id=?";
+		// logger.info(sql);
+		logger.info("");
+		try (Connection con = DbConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(sql);) {
+			stmt.setInt(1, userId);
+			try (ResultSet rs = stmt.executeQuery();) {
+				while (rs.next()) {
+					TicketBooking ticketBooking = new TicketBooking();
+					ticketBooking.setBookedId(rs.getInt("booked_id"));
+					ticketBooking.setMovieTheaterId(rs.getInt("movie_theatre_id"));
+					ticketBooking.setUsersId(rs.getInt("users_id"));
+					ticketBooking.setBookedSeats(rs.getInt("booked_seats"));
+					Date d = rs.getDate("show_date");
+					if (d != null) {
+						LocalDate ld = d.toLocalDate();
+						ticketBooking.setShowDate(ld);
+					}
+
+					Date sd = rs.getDate("booked_date");
+					if (sd != null) {
+						LocalDate sld = sd.toLocalDate();
+						ticketBooking.setBookedDate(sld);
+					}
+
+					ticketBooking.setAmount(rs.getInt("amount"));
+					ticketBooking.setPaymentStatus(rs.getString("booked_status"));
+					list.add(ticketBooking);
+				}
+			}
+		} catch (SQLException e) {
 			logger.debug(e.getMessage());
-			throw new DbException(ErrorConstant.INVALID_SELECT);
+			throw new DbException("Unable to find User Booked Details", e);
 
 		}
-		return a;
+
+		return list;
 	}
 
+	@Override
+	public void update(String bookedId) throws DbException {
+		String sql = "update booked set booked_status='CANCELLED' where booked_id = ?";
+		logger.info(sql);
+		try (Connection connection = DbConnection.getConnection();
 
+				PreparedStatement pst = connection.prepareStatement(sql);) {
+			pst.setString(1, bookedId);
 
-@Override
-public List<TicketBooking> findAllByUserId(int userId) throws DbException {
-	
-	List<TicketBooking> list = new ArrayList<TicketBooking>();
-	String sql = "select * from booked where users_id=?";
-	// logger.info(sql);
-	logger.info("");
-	try (	Connection con = DbConnection.getConnection();
-			PreparedStatement stmt = con.prepareStatement(sql);)
-	{
-		       stmt.setInt(1, userId);
-		try(ResultSet rs = stmt.executeQuery();)
-		{
-		while (rs.next()) {
-			TicketBooking tl = new TicketBooking();
-			tl.setBookedId(rs.getInt("booked_id"));
-			tl.setMovieTheaterId(rs.getInt("movie_theatre_id"));
-			tl.setUsersId(rs.getInt("users_id"));
-			tl.setBookedSeats(rs.getInt("booked_seats"));
-			Date d=rs.getDate("show_date");
-			if(d!=null) {
-				LocalDate ld=d.toLocalDate();
-				tl.setShowDate(ld);
-			}
-			
-			Date sd=rs.getDate("booked_date");
-			if(sd!=null) {
-				LocalDate sld=sd.toLocalDate();
-				tl.setBookedDate(sld);
-			}
-			
-			
-			tl.setAmount(rs.getInt("amount"));
-		    tl.setPaymentStatus(rs.getString("booked_status"));
-			list.add(tl);
+			int rows = pst.executeUpdate();
+			logger.info("" + rows);
+		} catch (SQLException e) {
+			throw new DbException("Unable to Update Booked status", e);
+
 		}
-		}	} catch (SQLException e) {
-		logger.debug(e.getMessage());
-		throw new DbException(ErrorConstant.INVALID_SELECT);
-
 	}
-
-	return list;
-}
-
-
-
-@Override
-public void updateBookedStatusByBookedId(String bookedId) throws DbException {
-	String sql = "update booked set booked_status='CANCELLED' where booked_id = ?";
-	logger.info(sql);
-	try(Connection connection =DbConnection.getConnection() ;
-
-	PreparedStatement pst = connection.prepareStatement(sql);)
-	{
-	pst.setString(1,bookedId);
-
-	int rows=pst.executeUpdate();
-	logger.info(""+rows);
-	}catch(SQLException e)
-	{
-		logger.debug(e.getMessage());
-		throw new DbException(ErrorConstant.INVALID_UPDATE);
-
-	}	
-}
 
 }

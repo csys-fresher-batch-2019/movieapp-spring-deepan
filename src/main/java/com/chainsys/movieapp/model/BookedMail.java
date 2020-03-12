@@ -1,11 +1,11 @@
 package com.chainsys.movieapp.model;
 
-public class BookedMailModel {
+public class BookedMail {
 	private String from;
 	private String password;
 	private String to;
 	private String sub;
-	private String Msg;
+	private String message;
 	private int bookedId;
 	private int usersId;
 	private int movieTheatreId;
@@ -35,11 +35,11 @@ public class BookedMailModel {
 	public void setSub(String sub) {
 		this.sub = sub;
 	}
-	public String getMsg() {
-		return Msg;
+	public String getMessage() {
+		return message;
 	}
-	public void setMsg(String msg) {
-		Msg = msg;
+	public void setMessage(String msg) {
+		message = msg;
 	}
 	public int getBookedId() {
 		return bookedId;

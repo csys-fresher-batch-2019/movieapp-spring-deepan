@@ -1,7 +1,6 @@
 
-<%@page import="com.chainsys.movieapp.model.MovieList"%>
+<%@page import="com.chainsys.movieapp.model.Movie"%>
 <%@page import="java.util.List"%>
-<%@page import="com.chainsys.movieapp.dao.impl.MovieListDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,7 +16,6 @@
 </head>
 <body>
 
-
 	<!-- A grey horizontal navbar that becomes vertical on small screens -->
 
 	<jsp:include page="header.jsp"></jsp:include>
@@ -26,17 +24,13 @@
 
 
 		<h3>List Movies</h3>
-		<%
-			MovieListDAOImpl obj = new MovieListDAOImpl();
-			System.out.println("### List Movie Name By Released Date ###");
-			List<MovieList> list = obj.findByReleasedDate();
-		%>
-
-
+		
+           
 		<div class="row">
 
 			<%
-				for (MovieList movie : list) {
+				List<Movie> list1=(List<Movie>) request.getAttribute("MOVIE_LIST");
+					for (Movie movie : list1) {
 			%>
 			<div class="col">
 				<div class="card" style="width: 18rem;">
@@ -56,7 +50,7 @@
 
 
 						&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-						<a href="ListMovieTheatre.jsp?movieId=<%=movie.getMovieId()%>"
+						<a href="ListMovieTheatreServlet?movieId=<%=movie.getMovieId()%>"
 							class="btn btn-primary"> Theatre</a>
 							
 					</div>
@@ -69,6 +63,5 @@
 
 		</div>
 	</div>
-
 </body>
 </html>

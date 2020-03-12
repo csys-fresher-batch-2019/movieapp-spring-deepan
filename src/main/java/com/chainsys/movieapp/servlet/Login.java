@@ -17,6 +17,10 @@ import com.chainsys.movieapp.service.ServiceException;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
 
@@ -36,15 +40,15 @@ public class Login extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("USER_ID", userId);
 			//Step 2.1.1:Go to next page
-			response.sendRedirect("HomeMovies.jsp");
+			response.sendRedirect("HomeMovies");
 			status="success";
 		} catch (BadCredentialsException e) {
 			logger.debug(e.getMessage());
 			status="Invalid";
-			//response.sendRedirect("Login.jsp?errorMessage=Invalid Login");
+			response.sendRedirect("Login.jsp?errorMessage=Invalid Login");
 		} catch (ServiceException e) {
 			status="error";
-			//response.sendRedirect("Login.jsp?errorMessage=Invalid Login");
+			response.sendRedirect("Login.jsp?errorMessage=Invalid Login");
 
 		}
 		logger.info(status);

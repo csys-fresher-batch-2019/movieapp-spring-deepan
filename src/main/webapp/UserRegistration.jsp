@@ -140,16 +140,23 @@ button[type="submit"] {
 }
 </style>
 <body>
-<%String errorMessage = (String)request.getAttribute("errorMessage");
-if(errorMessage !=null)
-{%>
-<font color="red"style="font: bold"><%=errorMessage%>
-<%}%>
+
 	<jsp:include page="header.jsp"></jsp:include>
 
 	<div class="main-reg">
 		<div class="form-heading">Registration</div>
+<%String errorMessage = (String)request.getAttribute("errorMessage");
+if(errorMessage !=null)
+{%>
+<center>
+<font color="red"style="font: bold" >
 
+
+
+
+
+ <%=errorMessage%></font></center>
+<%}%>
 		<div class="form-reg">
 
 			<form action="Registration" autocomplete="off">

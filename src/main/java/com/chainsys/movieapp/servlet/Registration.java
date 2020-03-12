@@ -12,20 +12,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.factory.DAOFactory;
 import com.chainsys.movieapp.model.UserInformation;
+import com.chainsys.movieapp.service.RegistrationService;
 
 /**
  * Servlet implementation class Registration
  */
 @WebServlet("/Registration")
 public class Registration extends HttpServlet {
-	private static final Logger logger = LoggerFactory.getLogger(UpdatePass.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
+@Autowired
+private RegistrationService registration;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -42,7 +47,7 @@ public class Registration extends HttpServlet {
 		UserInformationDAO dao = DAOFactory.getUserInformationDAO();
 
 		try {
-			List<UserInformation> list1 = dao.findAllUserDetails();
+			List<UserInformation> list1 = dao.findAll();
 			for(UserInformation ui : list1) {
 				long m =ui.getMobileNum();
 				String email =ui.getEmailId();
@@ -58,7 +63,7 @@ public class Registration extends HttpServlet {
 			}
 			else {
 				for (UserInformation UI : list) {
-					dao.save(UI);
+					registration.addUserDetails(UI);
 					response.sendRedirect("Login.jsp");
 
 				}
@@ -68,7 +73,9 @@ public class Registration extends HttpServlet {
 			
 			out.println(user.getUserName() + " " + "inserted");
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			request.setAttribute("errorMessage", e.getMessage());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("UserRegistration.jsp");
+			dispatcher.forward(request, response);
 		}
 
 	}

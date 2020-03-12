@@ -4,7 +4,7 @@ package com.chainsys.movieapp.model;
 //import java.time.LocalDate;
 import java.time.LocalDate;
 
-public class MovieList {
+public class Movie {
 	private int movieId;
 	private String movieName;
 	private String movieType;

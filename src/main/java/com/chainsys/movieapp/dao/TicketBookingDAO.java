@@ -9,10 +9,10 @@ import com.chainsys.movieapp.model.TicketBooking;
 public interface TicketBookingDAO {
 	
     void save(TicketBooking list) throws DbException;
-    void deleteBookingDetailsByUserId(int userId) throws DbException;
+    void delete(int userId) throws DbException;
     int findPriceByMovieTheatreId(int movieTheatreId) throws DbException;
     List<TicketBooking> findAllByUserId(int userId) throws DbException;
-    void updateBookedStatusByBookedId(String bookedId)throws DbException;
+    void update(String bookedId)throws DbException;
 
 
 }

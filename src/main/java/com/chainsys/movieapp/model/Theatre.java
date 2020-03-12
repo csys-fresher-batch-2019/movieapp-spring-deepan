@@ -1,6 +1,6 @@
 package com.chainsys.movieapp.model;
 
-public class TheatreList {
+public class Theatre {
 	private String theatreName;
 	private int theatreId;
 	private int numberSeats;

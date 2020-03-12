@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.dao.UserInformationDAO;
-import com.chainsys.movieapp.dao.impl.UserInformationImpl;
+import com.chainsys.movieapp.dao.impl.UserInformationDAOImpl;
 import com.chainsys.movieapp.exception.BadCredentialsException;
 import com.chainsys.movieapp.exception.DbException;
 
@@ -12,7 +12,7 @@ public class AuthService {
 	private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
 
-	public UserInformationDAO userDAO = new UserInformationImpl();
+	public UserInformationDAO userDAO = new UserInformationDAOImpl();
 	
 	public Integer login(String emailId, String epassword) throws BadCredentialsException, ServiceException {
 		Integer login = null;

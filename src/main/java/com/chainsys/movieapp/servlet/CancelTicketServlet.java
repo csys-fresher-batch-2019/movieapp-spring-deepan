@@ -30,7 +30,7 @@ public class CancelTicketServlet extends HttpServlet {
 
 		TicketBookingDAO impl = new TicketBookingDAOImpl();
 		try {
-			impl.updateBookedStatusByBookedId(bookedId);
+			impl.update(bookedId);
 		} catch (DbException e) {
 			logger.debug(e.getMessage());
 		}
