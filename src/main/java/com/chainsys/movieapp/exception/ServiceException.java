@@ -1,4 +1,4 @@
-package com.chainsys.movieapp.service;
+package com.chainsys.movieapp.exception;
 
 public class ServiceException extends Exception {
 

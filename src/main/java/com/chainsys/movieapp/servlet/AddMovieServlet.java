@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
+import com.chainsys.movieapp.dao.impl.MovieDAOImpl;
 import com.chainsys.movieapp.model.Movie;
 import com.chainsys.movieapp.exception.DbException;
 
@@ -41,7 +41,7 @@ public class AddMovieServlet extends HttpServlet {
 		ml.setImageUrl(request.getParameter("image"));
 		List.add(ml);
 
-		MovieListDAOImpl obj = new MovieListDAOImpl();
+		MovieDAOImpl obj = new MovieDAOImpl();
 
 		for (Movie movie : List) {
 			try {

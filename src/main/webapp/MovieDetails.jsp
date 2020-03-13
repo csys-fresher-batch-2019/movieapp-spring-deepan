@@ -1,4 +1,4 @@
-<%@page import="com.chainsys.movieapp.model.MovieList"%>
+<%@page import="com.chainsys.movieapp.model.Movie"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -10,9 +10,9 @@
 </head>
 <body>
 	<%
- List<MovieList> list=(List<MovieList>)request.getAttribute("MOVIE_LIST");
+ List<Movie> list=(List<Movie>)request.getAttribute("MOVIE_LIST");
 if (list !=null){
-for (MovieList m : list) 
+for (Movie m : list) 
 {
 	out.println("<pre> MOVIE ID <input type='number' name='movieid' value="+m.getMovieId()+"><br></br></pre>");
 	out.println("<pre> MOVIE NAME <input type='text' name='moviename' value="+m.getMovieName()+"><br></br></pre>");
@@ -29,7 +29,7 @@ else{
 }
 %>
 	<%
-for(MovieList m :list){%>
+for(Movie m :list){%>
 	<div class="card" style="width: 18rem;">
 		<img src="..." class="card-img-top" alt="...">
 		<div class="card-body">

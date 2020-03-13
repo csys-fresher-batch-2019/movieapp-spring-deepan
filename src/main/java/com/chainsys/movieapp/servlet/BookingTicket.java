@@ -13,9 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.chainsys.movieapp.dao.impl.TicketBookingDAOImpl;
 import com.chainsys.movieapp.model.TicketBooking;
+import com.chainsys.movieapp.service.TicketBookingService;
 
 /**
  * Servlet implementation class TicketBooking
@@ -27,7 +29,9 @@ public class BookingTicket extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(BookingTicket.class);
-
+@Autowired
+  
+TicketBookingService ticketBookingService;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -63,7 +67,8 @@ public class BookingTicket extends HttpServlet {
 			out.print(movieTheatreId);
 			tb.setShowDate(LocalDate.parse(showDate));
 
-			int a = impl.findPriceByMovieTheatreId(tb.getMovieTheaterId());
+			//int a = impl.findPriceByMovieTheatreId(tb.getMovieTheaterId());
+			int a=ticketBookingService.findTicketBooking(tb.getMovieTheaterId());
 			out.print(a);
 			tot = tb.getBookedSeats() * a;
 			tb.setAmount(tot);

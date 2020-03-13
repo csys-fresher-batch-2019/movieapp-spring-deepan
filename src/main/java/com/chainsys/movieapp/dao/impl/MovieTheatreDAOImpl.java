@@ -10,12 +10,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.chainsys.movieapp.dao.MovieTheatreDAO;
 import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.MovieTheatre;
 import com.chainsys.movieapp.util.DbConnection;
-
+@Repository
 public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 	private static final Logger logger = LoggerFactory.getLogger(MovieTheatreDAOImpl.class);
 
@@ -31,7 +32,6 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 			pst.setString(5, theatre.getMovieTiming().toString());
 			int row = pst.executeUpdate();
 			logger.info("" + row);
-			con.close();
 		} catch (SQLException e) {
 			throw new DbException("Unable to add MovieTheatre", e);
 
@@ -39,21 +39,22 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 
 	}
 
-	public void updateMovieTimingByMovieTheatreId(int movieTheatreId, String movieTiming) throws DbException {
+	public int updateMovieTimingByMovieTheatreId(int movieTheatreId, String movieTiming) throws DbException {
 		String sql = "update movie_theatre set movie_timing=? where movie_theatre_id=?";
 		logger.info("");
 		// logger.info(sql);
+		int row = 0;
 		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setString(1, movieTiming.toString());
 			pst.setInt(2, movieTheatreId);
 
-			int row = pst.executeUpdate();
+			row = pst.executeUpdate();
 			logger.info("" + row);
-			con.close();
 		} catch (SQLException e) {
 			throw new DbException("Unable to update Movie Timing", e);
 
 		}
+		return row;
 
 	}
 
@@ -65,7 +66,6 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 			pst.setInt(1, movieTheatreId);
 			int row = pst.executeUpdate();
 			logger.info("" + row);
-			con.close();
 		} catch (SQLException e) {
 			throw new DbException("Unable to delete Movie Theatre", e);
 
@@ -138,21 +138,23 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 		return activeList;
 
 	}
+	
 
-	public void updateMoviePriceByMovieTheatreId(int price, int movieTheatreId) throws DbException {
+	public int updateMoviePriceByMovieTheatreId(int price, int movieTheatreId) throws DbException {
 		String sql = "update movie_theatre set price=? where movie_theatre_id=?";
 		logger.info("");
 		// logger.info(sql);
+		int row = 0;
 		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, price);
 			pst.setInt(2, movieTheatreId);
-			int row = pst.executeUpdate();
+			row = pst.executeUpdate();
 			logger.info("" + row);
-			con.close();
 		} catch (SQLException e) {
 			throw new DbException("Unable to update Movie Price", e);
 
 		}
+		return row;
 
 	}
 
@@ -171,11 +173,8 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 					movieTheatre.setMovieTiming(LocalTime.parse(rs.getString("movie_timing")));
 					list.add(movieTheatre);
 				}
-				con.close();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			logger.debug(e.getMessage());
 			throw new DbException("Unable to find Movie Timing and Id", e);
 
 		}
@@ -200,7 +199,6 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 					movieTheatre.setMovieTiming(rs.getTime("movie_timing").toLocalTime());
 					list.add(movieTheatre);
 				}
-				con.close();
 			}
 		} catch (SQLException e) {
 			throw new DbException("Unable to find booked seats", e);
@@ -210,20 +208,21 @@ public class MovieTheatreDAOImpl implements MovieTheatreDAO {
 
 	}
 
-	public void updateMovieStatusByMovieTheatreId(int active, int movieTheatreId) throws DbException {
+	public int updateMovieStatusByMovieTheatreId(int active, int movieTheatreId) throws DbException {
 		String sql = "update movie_theatre set active=? where movie_theatre_id=?";
+		int row = 0;
 		logger.info("");
 		logger.info(sql);
 		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, active);
 			pst.setInt(2, movieTheatreId);
-			int row = pst.executeUpdate();
+			row = pst.executeUpdate();
 			logger.info("" + row);
-			con.close();
 		} catch (SQLException e) {
 			throw new DbException("Unable to update Movie Status", e);
 
 		}
+		return row;
 	}
 
 }

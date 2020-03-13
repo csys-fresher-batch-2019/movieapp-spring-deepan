@@ -11,13 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.chainsys.movieapp.dao.TicketBookingDAO;
-import com.chainsys.movieapp.dao.impl.TicketBookingDAOImpl;
-import com.chainsys.movieapp.exception.DbException;
+import com.chainsys.movieapp.service.TicketBookingService;
 
 @WebServlet("/CancelTicketServlet")
 public class CancelTicketServlet extends HttpServlet {
+	@Autowired
+	TicketBookingService ticketBookingService;
 	private static final Logger logger = LoggerFactory.getLogger(CancelTicketServlet.class);
 
 	private static final long serialVersionUID = 1L;
@@ -28,10 +29,11 @@ public class CancelTicketServlet extends HttpServlet {
 		String bookedId = request.getParameter("bookedId");
 		logger.info(bookedId);
 
-		TicketBookingDAO impl = new TicketBookingDAOImpl();
+		//TicketBookingDAO impl = new TicketBookingDAOImpl();
 		try {
-			impl.update(bookedId);
-		} catch (DbException e) {
+			//impl.update(bookedId);
+			ticketBookingService.cancelTicket(bookedId);
+		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
 

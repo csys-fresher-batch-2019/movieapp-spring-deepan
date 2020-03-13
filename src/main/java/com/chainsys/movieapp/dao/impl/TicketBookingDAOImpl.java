@@ -1,6 +1,7 @@
 package com.chainsys.movieapp.dao.impl;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,11 +12,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.chainsys.movieapp.dao.TicketBookingDAO;
 import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.TicketBooking;
 import com.chainsys.movieapp.util.DbConnection;
+@Repository
 public class TicketBookingDAOImpl implements TicketBookingDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(TicketBookingDAOImpl.class);
@@ -132,7 +135,6 @@ public class TicketBookingDAOImpl implements TicketBookingDAO {
 				}
 			}
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
 			throw new DbException("Unable to find User Booked Details", e);
 
 		}
@@ -141,20 +143,22 @@ public class TicketBookingDAOImpl implements TicketBookingDAO {
 	}
 
 	@Override
-	public void update(String bookedId) throws DbException {
+	public int update(String bookedId) throws DbException {
 		String sql = "update booked set booked_status='CANCELLED' where booked_id = ?";
 		logger.info(sql);
+		int rows=0;
 		try (Connection connection = DbConnection.getConnection();
 
 				PreparedStatement pst = connection.prepareStatement(sql);) {
 			pst.setString(1, bookedId);
 
-			int rows = pst.executeUpdate();
+			rows = pst.executeUpdate();
 			logger.info("" + rows);
 		} catch (SQLException e) {
 			throw new DbException("Unable to Update Booked status", e);
 
 		}
+		return rows;
 	}
 
 }

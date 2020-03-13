@@ -13,15 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.chainsys.movieapp.dao.MovieListDAO;
+import com.chainsys.movieapp.dao.MovieDAO;
 import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.Movie;
 import com.chainsys.movieapp.util.DbConnection;
 
 @Repository
-public class MovieListDAOImpl implements MovieListDAO {
+public class MovieDAOImpl implements MovieDAO {
 
-	private static final Logger logger = LoggerFactory.getLogger(MovieListDAOImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(MovieDAOImpl.class);
 
 	public void save(Movie movie) throws DbException {
 
@@ -44,6 +44,7 @@ public class MovieListDAOImpl implements MovieListDAO {
 
 	}
 
+	
 	public void update(String movieName, String movieType, String movieLanguage, int movieRating, int movieDuration,
 			String releasedDate, int movieId) throws DbException {
 
@@ -108,6 +109,7 @@ public class MovieListDAOImpl implements MovieListDAO {
 		}
 		return list;
 	}
+	
 
 	public List<Movie> findAll() throws DbException {
 
@@ -128,10 +130,9 @@ public class MovieListDAOImpl implements MovieListDAO {
 					movie.setMovieRating(rs.getInt("movie_rating"));
 					movie.setMovieDuration(rs.getInt("movie_duration"));
 
-					Date rd = rs.getDate("released_date");
+					LocalDate rd = rs.getDate("released_date").toLocalDate();
 					if (rd != null) {
-						LocalDate ld = rd.toLocalDate();
-						movie.setReleasedDate(ld);
+						movie.setReleasedDate(rd);
 					}
 					list.add(movie);
 				}
@@ -142,6 +143,9 @@ public class MovieListDAOImpl implements MovieListDAO {
 		return list;
 
 	}
+	
+	
+	
 
 	public List<Movie> findByMovieName(String movieName) throws DbException {
 
@@ -160,10 +164,9 @@ public class MovieListDAOImpl implements MovieListDAO {
 					movie.setMovieLanguage(rs.getString("movie_language"));
 					movie.setMovieRating(rs.getInt("movie_rating"));
 					movie.setMovieDuration(rs.getInt("movie_duration"));
-					Date rd = rs.getDate("released_date");
+					LocalDate rd = rs.getDate("released_date").toLocalDate();
 					if (rd != null) {
-						LocalDate ld = rd.toLocalDate();
-						movie.setReleasedDate(ld);
+						movie.setReleasedDate(rd);
 					}
 					list.add(movie);
 				}

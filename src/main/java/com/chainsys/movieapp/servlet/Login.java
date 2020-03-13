@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chainsys.movieapp.exception.BadCredentialsException;
+import com.chainsys.movieapp.exception.ServiceException;
 import com.chainsys.movieapp.service.AuthService;
-import com.chainsys.movieapp.service.ServiceException;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {

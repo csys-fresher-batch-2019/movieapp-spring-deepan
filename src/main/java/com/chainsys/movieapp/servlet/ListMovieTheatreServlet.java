@@ -10,28 +10,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.chainsys.movieapp.dao.MovieTheatreDAO;
-import com.chainsys.movieapp.dao.impl.MovieTheatreDAOImpl;
-import com.chainsys.movieapp.exception.DbException;
-import com.chainsys.movieapp.model.MovieTheatre;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.chainsys.movieapp.model.MovieTheatre;
+import com.chainsys.movieapp.service.MovieTheatreService;
 
 @WebServlet("/ListMovieTheatreServlet")
 public class ListMovieTheatreServlet extends HttpServlet {
-	private static final long serialVersionUID=1L;
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private static final long serialVersionUID = 1L;
+	@Autowired
+	MovieTheatreService movieTheatreService;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String movieIdStr = request.getParameter("movieId");
 		int movieId = Integer.parseInt(movieIdStr);
 
-		MovieTheatreDAO dao = new MovieTheatreDAOImpl();
+		// MovieTheatreDAO dao = new MovieTheatreDAOImpl();
+
 		try {
-			List<MovieTheatre> list = dao.findActiveTheatreByMovieId(movieId);
+			List<MovieTheatre> list = movieTheatreService.findActiveTheatre(movieId);
 			request.setAttribute("Movie_theatre", list);
-		} catch (DbException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestDispatcher dispatcher=request.getRequestDispatcher("ListMovieTheatre.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("ListMovieTheatre.jsp");
 		dispatcher.forward(request, response);
 	}
 

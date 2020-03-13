@@ -7,6 +7,7 @@ import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.dao.impl.UserInformationDAOImpl;
 import com.chainsys.movieapp.exception.BadCredentialsException;
 import com.chainsys.movieapp.exception.DbException;
+import com.chainsys.movieapp.exception.ServiceException;
 
 public class AuthService {
 	private static final Logger logger = LoggerFactory.getLogger(AuthService.class);

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chainsys.movieapp.dao.MovieListDAO;
+import com.chainsys.movieapp.dao.MovieDAO;
 import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.dto.Messagedto;
 import com.chainsys.movieapp.factory.DAOFactory;
@@ -20,7 +20,7 @@ import com.chainsys.movieapp.exception.DbException;
 @RequestMapping("api")
 public class MovieAppController {
 	@Autowired
-	MovieListDAO mld;
+	MovieDAO mld;
 	UserInformationDAO udao=DAOFactory.getUserInformationDAO();
 	@GetMapping("/allMovieList")
 	public List<Movie> allMovieList() throws DbException

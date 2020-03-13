@@ -1,7 +1,6 @@
 package com.chainsys.movieapp.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,10 +13,10 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.chainsys.movieapp.dao.impl.TicketBookingDAOImpl;
 import com.chainsys.movieapp.model.TicketBooking;
-import com.chainsys.movieapp.exception.DbException;
+import com.chainsys.movieapp.service.TicketBookingService;
 
 /**
  * Servlet implementation class UserBookedDetailsServlet
@@ -25,8 +24,9 @@ import com.chainsys.movieapp.exception.DbException;
 @WebServlet("/UserBookedDetailsServlet")
 public class UserBookedDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	@Autowired
+	TicketBookingService ticketBookingService;
 	private static final Logger logger = LoggerFactory.getLogger(UpdatePass.class);
-
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -37,11 +37,12 @@ public class UserBookedDetailsServlet extends HttpServlet {
 		if (userId == null) {
 			response.sendRedirect("Login.jsp");
 		} else {
-			TicketBookingDAOImpl obj = new TicketBookingDAOImpl();
-			List<TicketBooking> list = new ArrayList<TicketBooking>();
+			// TicketBookingDAOImpl obj = new TicketBookingDAOImpl();
+
+			List<TicketBooking> list = null;
 			try {
-				list = obj.findAllByUserId(userId);
-			} catch (DbException e) {
+				list = ticketBookingService.findUserBookedDetails(userId);
+			} catch (Exception e) {
 				logger.debug(e.getMessage());
 			}
 			request.setAttribute("UserBookedDetails", list);

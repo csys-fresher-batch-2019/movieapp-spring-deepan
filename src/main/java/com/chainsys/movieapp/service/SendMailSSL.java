@@ -6,9 +6,9 @@ import java.util.Random;
 public class SendMailSSL {
 	public static String otp = null;
 	static Random rnd = new Random();
-	
+
 	public static String generatorOTP(int length) {
-	
+
 		int number = rnd.nextInt(999999);
 		otp = String.format("%06d", number);
 		return (otp);

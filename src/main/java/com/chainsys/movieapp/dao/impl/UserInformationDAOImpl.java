@@ -9,12 +9,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.chainsys.movieapp.dao.UserInformationDAO;
 import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.UserInformation;
 import com.chainsys.movieapp.util.DbConnection;
-
+@Repository
 public class UserInformationDAOImpl implements UserInformationDAO {
 	private static final Logger logger = LoggerFactory.getLogger(UserInformationDAOImpl.class);
 

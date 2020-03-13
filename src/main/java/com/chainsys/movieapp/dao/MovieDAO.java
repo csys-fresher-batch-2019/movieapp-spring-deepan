@@ -5,7 +5,7 @@ import java.util.List;
 import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.Movie;
 
-public interface MovieListDAO {
+public interface MovieDAO {
 	
 	//@SqlUpdate("insert into movie(movie_id,movie_name,movie_type,movie_language,movie_rating,movie_duration,released_date)values(movie_id_seq.nextval,?,?,?,?,?,?)")
 	void save( Movie List) throws DbException;

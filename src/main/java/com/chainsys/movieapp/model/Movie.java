@@ -1,7 +1,5 @@
 package com.chainsys.movieapp.model;
 
-//import java.sql.Date;
-//import java.time.LocalDate;
 import java.time.LocalDate;
 
 public class Movie {

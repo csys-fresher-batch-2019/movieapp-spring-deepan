@@ -12,7 +12,7 @@ public interface TicketBookingDAO {
     void delete(int userId) throws DbException;
     int findPriceByMovieTheatreId(int movieTheatreId) throws DbException;
     List<TicketBooking> findAllByUserId(int userId) throws DbException;
-    void update(String bookedId)throws DbException;
+    int update(String bookedId)throws DbException;
 
 
 }

@@ -9,13 +9,13 @@ public interface MovieTheatreDAO {
 	
 	void save(MovieTheatre list) throws DbException;
 	
-	void updateMovieTimingByMovieTheatreId(int movieTheatreId,String movieTiming) throws DbException;
+	int updateMovieTimingByMovieTheatreId(int movieTheatreId,String movieTiming) throws DbException;
 	
 	void delete(int movieTheatreId) throws DbException;
 	
-	void updateMoviePriceByMovieTheatreId(int price,int movieTheatreId) throws DbException;
+	int updateMoviePriceByMovieTheatreId(int price,int movieTheatreId) throws DbException;
 	
-	void updateMovieStatusByMovieTheatreId(int active,int movieTheatreId) throws DbException;
+	int updateMovieStatusByMovieTheatreId(int active,int movieTheatreId) throws DbException;
 	
     List<MovieTheatre> findByMovieId(int movieId) throws DbException;
   

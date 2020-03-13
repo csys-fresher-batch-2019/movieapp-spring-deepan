@@ -11,7 +11,7 @@ public interface TheatreListDAO {
     
     void delete(int theatreId) throws DbException;
     
-    void update(int theatreRating, String theatreName) throws DbException;
+    int update(int theatreRating, String theatreName) throws DbException;
     
     List<Theatre> findAll() throws DbException;
 

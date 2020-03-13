@@ -7,7 +7,7 @@ import com.chainsys.movieapp.model.UserInformation;
 @Component
 	public class Validator {
 
-	public static void validateRegistration(UserInformation u) throws ValidatorException {
+	public  void validateRegistration(UserInformation u) throws ValidatorException {
 			
 			if ( u.getUserName() == null || "".equals(u.getUserName().trim())) {
 					throw new ValidatorException("Name cannot be blank/empty");
@@ -27,7 +27,7 @@ import com.chainsys.movieapp.model.UserInformation;
 		}
 	
 	
-	public static void validateLoginCheck(UserInformation u) throws ValidatorException {
+	public  void validateLoginCheck(UserInformation u) throws ValidatorException {
 		
 		if(u.getEmailId() == null || "".equals(u.getEmailId().trim())) {
 				throw new ValidatorException("Mail-id cannot be blank/empty");

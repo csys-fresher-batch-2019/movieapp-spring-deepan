@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
+import com.chainsys.movieapp.dao.impl.MovieDAOImpl;
 import com.chainsys.movieapp.model.Movie;
 
 @WebServlet("/MovieDetailsServlet")
@@ -25,7 +25,7 @@ public class MovieDetailsServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		MovieListDAOImpl obj = new MovieListDAOImpl();
+		MovieDAOImpl obj = new MovieDAOImpl();
 		String movieName = request.getParameter("movieName");
 		logger.info(movieName);
 		List<Movie> list = new ArrayList<Movie>();

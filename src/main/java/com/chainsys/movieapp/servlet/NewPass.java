@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.chainsys.movieapp.dao.impl.MovieListDAOImpl;
 import com.chainsys.movieapp.service.SendMailSSL;
 
 /**
@@ -21,6 +20,10 @@ import com.chainsys.movieapp.service.SendMailSSL;
 
 @WebServlet("/NewPass")
 public class NewPass extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(NewPass.class);
 
 

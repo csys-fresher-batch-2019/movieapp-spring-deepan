@@ -9,12 +9,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.chainsys.movieapp.dao.TheatreListDAO;
 import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.Theatre;
 import com.chainsys.movieapp.util.DbConnection;
-
+@Repository
 public class TheatreListDAOImpl implements TheatreListDAO {
 	private static final Logger logger = LoggerFactory.getLogger(TheatreListDAOImpl.class);
 
@@ -28,7 +29,6 @@ public class TheatreListDAOImpl implements TheatreListDAO {
 			pst.setInt(4, theatre.getTheatreRating());
 			int row = pst.executeUpdate();
 			logger.info("" + row);
-			con.close();
 		} catch (SQLException e) {
 			throw new DbException("Unable to add Theatre", e);
 
@@ -43,7 +43,6 @@ public class TheatreListDAOImpl implements TheatreListDAO {
 			pst.setInt(1, theatreId);
 			int row = pst.executeUpdate();
 			logger.info("" + row);
-			con.close();
 		} catch (SQLException e) {
 			throw new DbException("Unable to delete Theatre Id", e);
 
@@ -51,20 +50,19 @@ public class TheatreListDAOImpl implements TheatreListDAO {
 
 	}
 
-	public void update(int theatreRating, String theatreName) throws DbException {
+	public int update(int theatreRating, String theatreName) throws DbException {
 		String sql = "update theatre set theatre_rating=? where theatre_name=?";
 		// logger.info(sql);
+		int rows=0;
 		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, theatreRating);
 			pst.setString(2, theatreName);
-			int row = pst.executeUpdate();
-			logger.info("" + row);
-			con.close();
+			rows = pst.executeUpdate();
+			logger.info("" + rows);
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
 			throw new DbException("Unable to Update theatre rating", e);
 
-		}
+		}return rows;
 
 	}
 
