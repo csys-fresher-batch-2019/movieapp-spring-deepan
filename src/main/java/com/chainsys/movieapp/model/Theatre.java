@@ -3,12 +3,12 @@ package com.chainsys.movieapp.model;
 public class Theatre {
 	private String theatreName;
 	private int theatreId;
-	private int numberSeats;
+	private int numberOfSeats;
 	private String theatreAddress;
 	private int theatreRating;
 	@Override
 	public String toString() {
-		return "TheatreList [theatreName=" + getTheatreName() + ", theatreId=" + getTheatreId() + ", numberSeats=" + getNumberSeats()
+		return "TheatreList [theatreName=" + getTheatreName() + ", theatreId=" + getTheatreId() + ", numberSeats=" + getNumberOfSeats()
 				+ ", theatreAddress=" + getTheatreAddress() + ", theatreRating=" + getTheatreRating() + "]";
 	}
 	/**
@@ -23,18 +23,7 @@ public class Theatre {
 	public void setTheatreName(String theatreName) {
 		this.theatreName = theatreName;
 	}
-	/**
-	 * @return the numberSeats
-	 */
-	public int getNumberSeats() {
-		return numberSeats;
-	}
-	/**
-	 * @param numberSeats the numberSeats to set
-	 */
-	public void setNumberSeats(int numberSeats) {
-		this.numberSeats = numberSeats;
-	}
+	
 	/**
 	 * @return the theatreAddress
 	 */
@@ -70,6 +59,18 @@ public class Theatre {
 	 */
 	public void setTheatreId(int theatreId) {
 		this.theatreId = theatreId;
+	}
+	/**
+	 * @return the numberOfSeats
+	 */
+	public int getNumberOfSeats() {
+		return numberOfSeats;
+	}
+	/**
+	 * @param numberOfSeats the numberOfSeats to set
+	 */
+	public void setNumberOfSeats(int numberOfSeats) {
+		this.numberOfSeats = numberOfSeats;
 	}
 
 }

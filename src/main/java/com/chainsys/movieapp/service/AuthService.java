@@ -13,7 +13,7 @@ public class AuthService {
 	private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
 
-	public UserInformationDAO userDAO = new UserInformationDAOImpl();
+	private UserInformationDAO userDAO = new UserInformationDAOImpl();
 	
 	public Integer login(String emailId, String epassword) throws BadCredentialsException, ServiceException {
 		Integer login = null;

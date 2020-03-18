@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.chainsys.movieapp.service.BookedMail;
+import com.chainsys.movieapp.service.BookedMailService;
 import com.chainsys.movieapp.dao.impl.UserInformationDAOImpl;
 import com.chainsys.movieapp.exception.DbException;
 
@@ -53,7 +53,7 @@ public class BookedMailSend extends HttpServlet {
 			try {
 
 				
-				BookedMail.send("movieappservice@gmail.com", "Deepan@123", Email, "Booking Details",
+				BookedMailService.send("movieappservice@gmail.com", "Deepan@123", Email, "Booking Details",
 						"Successfully booked", 1, userId, m, ns, totalAmount);
 				logger.info(Email + " Mail sent Successfully");
 				response.sendRedirect("HomeMovies.jsp");

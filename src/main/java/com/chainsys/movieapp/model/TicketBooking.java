@@ -5,19 +5,19 @@ import java.time.LocalDate;
 public class TicketBooking {
 	private int movieTheaterId;
 	private int bookedId;
-	private int usersId;
+	private int userId;
 	private int bookedSeats;
 	private int amount;
 	private String paymentStatus;
 	private LocalDate bookedDate;
-	private Long mobileNum;
+	private Long mobileNumber;
 	private LocalDate showDate;
 
 	@Override
 	public String toString() {
-		return "TicketBooking [movieTheaterId=" + getMovieTheaterId() + ", bookedId=" + bookedId + ", usersId="
-				+ getUsersId() + ", bookedSeats=" + getBookedSeats() + ", amount=" + getAmount() + ", paymentStatus="
-				+ getPaymentStatus() + ", bookedDate=" + bookedDate + ", mobileNum=" + getMobileNum() + ",showDate="
+		return "TicketBooking [movieTheaterId=" + getMovieTheaterId() + ", bookedId=" + bookedId + ", userId="
+				+ getUserId() + ", bookedSeats=" + getBookedSeats() + ", amount=" + getAmount() + ", paymentStatus="
+				+ getPaymentStatus() + ", bookedDate=" + bookedDate + ", mobileNum=" + getMobileNumber() + ",showDate="
 				+ getShowDate() + "]";
 	}
 
@@ -37,13 +37,7 @@ public class TicketBooking {
 		this.bookedId = bookedId;
 	}
 
-	public int getUsersId() {
-		return usersId;
-	}
-
-	public void setUsersId(int usersId) {
-		this.usersId = usersId;
-	}
+	
 
 	public int getBookedSeats() {
 		return bookedSeats;
@@ -77,15 +71,7 @@ public class TicketBooking {
 		this.bookedDate = sld;
 	}
 
-	public Long getMobileNum() {
-		return mobileNum;
-	}
-
-	public void setMobileNum(Long mobileNum) {
-		this.mobileNum = mobileNum;
-	}
-
-	/**
+		/**
 	 * @return the showDate
 	 */
 	public LocalDate getShowDate() {
@@ -98,6 +84,34 @@ public class TicketBooking {
 	 */
 	public void setShowDate(LocalDate showDate) {
 		this.showDate = showDate;
+	}
+
+	/**
+	 * @return the mobileNumber
+	 */
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	/**
+	 * @param mobileNumber the mobileNumber to set
+	 */
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public int getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

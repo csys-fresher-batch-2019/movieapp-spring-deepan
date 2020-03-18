@@ -39,9 +39,10 @@ private RegistrationService registration;
 		PrintWriter out = response.getWriter();
 		user.setUserName(request.getParameter("Name"));
 		String id = user.setEmailId(request.getParameter("EmailId"));
-		long ph = user.setMobileNum(Long.parseLong(request.getParameter("MobileNumber")));
+		
+		long ph = user.setMobileNumber(Long.parseLong(request.getParameter("MobileNumber")));
 		user.setGender(request.getParameter("gender"));
-		user.setEpassword(request.getParameter("Password"));
+		user.setPassword(request.getParameter("Password"));
 		list.add(user);
 		boolean status = false;
 		UserInformationDAO dao = DAOFactory.getUserInformationDAO();
@@ -49,7 +50,7 @@ private RegistrationService registration;
 		try {
 			List<UserInformation> list1 = dao.findAll();
 			for(UserInformation ui : list1) {
-				long m =ui.getMobileNum();
+				long m =ui.getMobileNumber();
 				String email =ui.getEmailId();
 				if(m ==ph ||email.equals(id)) {
 					status = true;

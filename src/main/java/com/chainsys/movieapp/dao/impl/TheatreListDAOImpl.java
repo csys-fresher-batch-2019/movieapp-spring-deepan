@@ -24,7 +24,7 @@ public class TheatreListDAOImpl implements TheatreListDAO {
 		// logger.info(sql);
 		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setString(1, theatre.getTheatreName());
-			pst.setInt(2, theatre.getNumberSeats());
+			pst.setInt(2, theatre.getNumberOfSeats());
 			pst.setString(3, theatre.getTheatreAddress());
 			pst.setInt(4, theatre.getTheatreRating());
 			int row = pst.executeUpdate();
@@ -78,7 +78,7 @@ public class TheatreListDAOImpl implements TheatreListDAO {
 					Theatre theatre = new Theatre();
 					theatre.setTheatreName(rs.getString("theatre_name"));
 					theatre.setTheatreId(rs.getInt("theatre_id"));
-					theatre.setNumberSeats(rs.getInt("number_seats"));
+					theatre.setNumberOfSeats(rs.getInt("number_seats"));
 					theatre.setTheatreAddress(rs.getString("theatre_address"));
 					theatre.setTheatreRating(rs.getInt("theatre_rating"));
 					list.add(theatre);
@@ -100,7 +100,7 @@ public class TheatreListDAOImpl implements TheatreListDAO {
 
 			pst.setString(1, "%" + theatreAddress + "%");
 			try (ResultSet rs = pst.executeQuery();) {
-				if (rs.next()) {
+				while (rs.next()) {
 					Theatre tl = new Theatre();
 					tl.setTheatreName(rs.getString("theatre_name"));
 					list.add(tl);

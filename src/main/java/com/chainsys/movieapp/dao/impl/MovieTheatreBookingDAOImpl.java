@@ -9,12 +9,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.chainsys.movieapp.dao.GetTotalAmountDAO;
 import com.chainsys.movieapp.exception.DbException;
 import com.chainsys.movieapp.model.MovieTheatreBookingDTO;
 import com.chainsys.movieapp.util.DbConnection;
-
+@Repository
 public class MovieTheatreBookingDAOImpl implements GetTotalAmountDAO {
 	private static final Logger logger = LoggerFactory.getLogger(MovieTheatreBookingDAOImpl.class);
 

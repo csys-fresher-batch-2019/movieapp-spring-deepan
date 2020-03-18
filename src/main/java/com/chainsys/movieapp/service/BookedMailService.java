@@ -17,10 +17,10 @@ import javax.mail.internet.MimeMultipart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BookedMail {
+public class BookedMailService {
 	
 
-	private static final Logger logger = LoggerFactory.getLogger(BookedMail.class);
+	private static final Logger logger = LoggerFactory.getLogger(BookedMailService.class);
 	public static void send(final String from,final String password,String to,String sub,String Msg,int bookedId,int userId,int movieTheatreId,int bookedSeats,int amount) throws Exception
 	{  
 		logger.info("Mail send");

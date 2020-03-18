@@ -33,12 +33,14 @@ public class TicketBookingService {
 		} catch (DbException e) {
 			throw new ServiceException(e);
 		}
+		
 	}
 
 	public List<TicketBooking> findUserBookedDetails(int userId) throws ServiceException {
 		List<TicketBooking> list = null;
 		try {
 			list = ticketBookingDAO.findAllByUserId(userId);
+			System.out.println("ticketbookingservice list"+list);
 		} catch (DbException e) {
 			throw new ServiceException(e);
 		}

@@ -27,7 +27,6 @@ public class CancelTicketServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String bookedId = request.getParameter("bookedId");
-		logger.info(bookedId);
 
 		//TicketBookingDAO impl = new TicketBookingDAOImpl();
 		try {
@@ -38,8 +37,8 @@ public class CancelTicketServlet extends HttpServlet {
 		}
 
 		PrintWriter out = response.getWriter();
-		out.print("Your Ticeket is successfully cancelled");
-		response.sendRedirect("HomeMovies.jsp");
+		out.print("Your Ticket is successfully cancelled");
+		response.sendRedirect("UserBookedDetailsServlet");
 	}
 
 }

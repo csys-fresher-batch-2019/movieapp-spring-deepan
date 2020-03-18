@@ -26,8 +26,8 @@ public class UserInformationDAOImpl implements UserInformationDAO {
 		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setString(1, users.getUserName());
 			pst.setString(2, users.getEmailId());
-			pst.setString(3, users.getEpassword());
-			pst.setLong(4, users.getMobileNum());
+			pst.setString(3, users.getPassword());
+			pst.setLong(4, users.getMobileNumber());
 			pst.setString(5, users.getGender());
 			row = pst.executeUpdate();
 			logger.info("" + row);
@@ -135,10 +135,10 @@ public class UserInformationDAOImpl implements UserInformationDAO {
 				while (rs.next()) {
 					UserInformation userInformation = new UserInformation();
 					userInformation.setEmailId(rs.getString("email_id"));
-					userInformation.setEpassword(rs.getString("epassword"));
+					userInformation.setPassword(rs.getString("epassword"));
 					userInformation.setGender(rs.getString("gender"));
 					userInformation.setUserId(rs.getInt("user_id"));
-					userInformation.setMobileNum(rs.getLong("mobile_num"));
+					userInformation.setMobileNumber(rs.getLong("mobile_num"));
 					userInformation.setUserName(rs.getString("user_name"));
 					list1.add(userInformation);
 				}

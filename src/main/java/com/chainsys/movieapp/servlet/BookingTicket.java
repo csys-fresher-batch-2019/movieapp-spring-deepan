@@ -60,7 +60,7 @@ TicketBookingService ticketBookingService;
 			TicketBooking tb = new TicketBooking();
 			TicketBookingDAOImpl impl = new TicketBookingDAOImpl();
 			tb.setBookedSeats(Integer.parseInt(seats));
-			tb.setUsersId(userId);
+			tb.setUserId(userId);
 			tb.setMovieTheaterId(movieTheatreId);
 			out.print(userId);
 

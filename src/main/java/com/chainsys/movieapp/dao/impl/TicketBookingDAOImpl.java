@@ -29,10 +29,10 @@ public class TicketBookingDAOImpl implements TicketBookingDAO {
 		try (Connection con = DbConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, booked.getMovieTheaterId());
 			// pst.setInt(2,booked.bookedId);
-			pst.setInt(2, booked.getUsersId());
+			pst.setInt(2, booked.getUserId());
 			pst.setInt(3, booked.getBookedSeats());
 			pst.setInt(4, booked.getAmount());
-			// pst.setLong(5, booked.getMobileNum());
+			//pst.setLong(5, booked.getMobileNumber());
 			pst.setDate(5, Date.valueOf(booked.getShowDate()));
 			pst.executeUpdate();
 			// logger.info(row);
@@ -105,33 +105,36 @@ public class TicketBookingDAOImpl implements TicketBookingDAO {
 	public List<TicketBooking> findAllByUserId(int userId) throws DbException {
 
 		List<TicketBooking> list = new ArrayList<>();
-		String sql = "select booked_id,movie_theatre_id,users_id,booked_seats,show_date from booked where users_id=?";
+		String sql = "select booked_id,movie_theatre_id,users_id,booked_seats,show_date,booked_date,amount,booked_status from booked where users_id=?";
 		// logger.info(sql);
 		logger.info("");
-		try (Connection con = DbConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(sql);) {
+		try (Connection con = DbConnection.getConnection(); 
+				PreparedStatement stmt = con.prepareStatement(sql);) {
 			stmt.setInt(1, userId);
+			
 			try (ResultSet rs = stmt.executeQuery();) {
 				while (rs.next()) {
+					
 					TicketBooking ticketBooking = new TicketBooking();
+
 					ticketBooking.setBookedId(rs.getInt("booked_id"));
 					ticketBooking.setMovieTheaterId(rs.getInt("movie_theatre_id"));
-					ticketBooking.setUsersId(rs.getInt("users_id"));
+					ticketBooking.setUserId(rs.getInt("users_id"));
 					ticketBooking.setBookedSeats(rs.getInt("booked_seats"));
-					Date d = rs.getDate("show_date");
+					LocalDate d = rs.getDate("show_date").toLocalDate();
 					if (d != null) {
-						LocalDate ld = d.toLocalDate();
-						ticketBooking.setShowDate(ld);
+						ticketBooking.setShowDate(d);
 					}
 
-					Date sd = rs.getDate("booked_date");
+					LocalDate sd = rs.getDate("booked_date").toLocalDate();
 					if (sd != null) {
-						LocalDate sld = sd.toLocalDate();
-						ticketBooking.setBookedDate(sld);
+						ticketBooking.setBookedDate(sd);
 					}
 
 					ticketBooking.setAmount(rs.getInt("amount"));
 					ticketBooking.setPaymentStatus(rs.getString("booked_status"));
 					list.add(ticketBooking);
+					System.out.println(list);
 				}
 			}
 		} catch (SQLException e) {
@@ -141,6 +144,12 @@ public class TicketBookingDAOImpl implements TicketBookingDAO {
 
 		return list;
 	}
+	
+	
+		
+	
+	
+	
 
 	@Override
 	public int update(String bookedId) throws DbException {

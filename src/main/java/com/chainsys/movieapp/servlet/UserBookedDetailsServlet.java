@@ -38,16 +38,18 @@ public class UserBookedDetailsServlet extends HttpServlet {
 			response.sendRedirect("Login.jsp");
 		} else {
 			// TicketBookingDAOImpl obj = new TicketBookingDAOImpl();
-
 			List<TicketBooking> list = null;
 			try {
 				list = ticketBookingService.findUserBookedDetails(userId);
+				System.out.println("servlet"+list);
+				request.setAttribute("UserBookedDetails", list);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("UserBookedDetails.jsp");
+				dispatcher.forward(request, response);
 			} catch (Exception e) {
+				e.printStackTrace();
 				logger.debug(e.getMessage());
 			}
-			request.setAttribute("UserBookedDetails", list);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("UserBookedDetails.jsp");
-			dispatcher.forward(request, response);
+			
 		}
 
 	}

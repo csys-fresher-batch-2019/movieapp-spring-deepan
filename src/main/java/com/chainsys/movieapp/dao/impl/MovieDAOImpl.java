@@ -90,7 +90,8 @@ public class MovieDAOImpl implements MovieDAO {
 		String sqla = "Select movie_name from movie where movie_language=? and movie_type=?";
 		// logger.info(sqla);
 		logger.info("");
-		try (Connection con = DbConnection.getConnection(); PreparedStatement stmta = con.prepareStatement(sqla);) {
+		try (Connection con = DbConnection.getConnection(); 
+			PreparedStatement stmta = con.prepareStatement(sqla);) {
 			stmta.setString(1, movieLanguage);
 			stmta.setString(2, movieType);
 			try (ResultSet rs = stmta.executeQuery();)

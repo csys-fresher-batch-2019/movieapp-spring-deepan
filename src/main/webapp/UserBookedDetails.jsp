@@ -71,7 +71,7 @@ body {
 			%>
 			<tr>
 				<td><h1
-						style="color: white; font-size: 20px; font-family: courier; text-align: centre;"><%=B.getUsersId()%></h1></td>
+						style="color: white; font-size: 20px; font-family: courier; text-align: centre;"><%=B.getUserId()%></h1></td>
 				<td><h1
 						style="color: white; font-size: 20px; font-family: courier; text-align: centre;"><%=B.getBookedId()%></h1></td>
 				<td><h1
