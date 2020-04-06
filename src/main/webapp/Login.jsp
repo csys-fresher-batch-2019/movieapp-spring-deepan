@@ -55,22 +55,17 @@ body::before {
 </style>
 </head>
 <body>
+		<form action="Login" autocomplete="off">
+
 	<jsp:include page="header.jsp"></jsp:include>
 	<div style="position: relative; left: 700px;">
 		<%
 			String errorMessage = request.getParameter("errorMessage");
 			if (errorMessage != null) {
 				out.println("<middle><font color='white' size='5'>" + errorMessage + "</font></middle>");
-
-			}
+}
 		%>
-		
-		
-		<form action="Login" autocomplete="off">
-		
-		
-	</div>
-	
+		</div>
 	<script
 		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>

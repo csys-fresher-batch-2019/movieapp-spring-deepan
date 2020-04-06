@@ -22,9 +22,7 @@ public class Login extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(Login.class);
-
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String status=null;
 		
 		//Step 1: Get form values

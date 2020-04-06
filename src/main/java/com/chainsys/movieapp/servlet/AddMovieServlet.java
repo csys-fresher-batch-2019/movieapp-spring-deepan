@@ -46,6 +46,7 @@ public class AddMovieServlet extends HttpServlet {
 		for (Movie movie : List) {
 			try {
 				obj.save(movie);
+				response.sendRedirect("HomeMovies");
 			} catch (DbException e) {
 				logger.debug(e.getMessage());
 			}

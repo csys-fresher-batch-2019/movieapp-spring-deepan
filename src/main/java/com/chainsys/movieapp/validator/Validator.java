@@ -15,13 +15,13 @@ import com.chainsys.movieapp.model.UserInformation;
 			if(u.getEmailId() == null || "".equals(u.getEmailId().trim())) {
 					throw new ValidatorException("Mail-id cannot be blank/empty");
 			}
-			if(u.getEpassword() == null || "".equals(u.getEpassword().trim())) {
+			if(u.getPassword() == null || "".equals(u.getPassword().trim())) {
 					throw new ValidatorException("Password cannot be blank/empty");
 			}
 			if(u.getGender() == null || "".equals(u.getGender().trim())) {
 					throw new ValidatorException("Gender cannot be blank/empty");
 			}
-			if(u.getMobileNum()== 0 ||Long.toString(u.getMobileNum()).length()<10||Long.toString(u.getMobileNum()).length()>10) {
+			if(u.getMobileNumber()== 0 ||Long.toString(u.getMobileNumber()).length()<10||Long.toString(u.getMobileNumber()).length()>10) {
 					throw new ValidatorException("Phone-number cannot be blank/empty");
 			}
 		}
@@ -32,7 +32,7 @@ import com.chainsys.movieapp.model.UserInformation;
 		if(u.getEmailId() == null || "".equals(u.getEmailId().trim())) {
 				throw new ValidatorException("Mail-id cannot be blank/empty");
 		}
-		if(u.getEpassword() == null || "".equals(u.getEpassword().trim())) {
+		if(u.getPassword() == null || "".equals(u.getPassword().trim())) {
 				throw new ValidatorException("Password cannot be blank/empty");
 		}
 		}

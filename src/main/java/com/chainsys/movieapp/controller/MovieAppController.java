@@ -36,9 +36,9 @@ public class MovieAppController {
 	Messagedto msg = new Messagedto();
 	user.setUserName(Name);
 	user.setEmailId(EmailId);
-	user.setMobileNum(MobileNumber);
+	user.setMobileNumber(MobileNumber);
 	user.setGender(gender);
-	user.setEpassword(Password);
+	user.setPassword(Password);
 	int m=udao.save(user);
 	if(m==1) {
 		msg.setInfoMessage("Successfully Registered");

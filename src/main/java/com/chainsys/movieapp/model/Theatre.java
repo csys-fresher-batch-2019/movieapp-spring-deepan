@@ -6,6 +6,7 @@ public class Theatre {
 	private int numberOfSeats;
 	private String theatreAddress;
 	private int theatreRating;
+	private String password;
 	@Override
 	public String toString() {
 		return "TheatreList [theatreName=" + getTheatreName() + ", theatreId=" + getTheatreId() + ", numberSeats=" + getNumberOfSeats()
@@ -71,6 +72,18 @@ public class Theatre {
 	 */
 	public void setNumberOfSeats(int numberOfSeats) {
 		this.numberOfSeats = numberOfSeats;
+	}
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

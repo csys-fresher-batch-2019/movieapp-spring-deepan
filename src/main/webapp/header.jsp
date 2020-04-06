@@ -20,6 +20,10 @@ Integer userId = (Integer)session.getAttribute("USER_ID");
 		<li class="nav-item"><a class="nav-link" href="LogoutServ">Logout</a>
 		</li>
 		<% } %>
+		
+		<li class="nav-item"><a class="nav-link" href="AddMovies.jsp">Admin</a>
+		</li>
+		
 	</ul>
 
 </nav>

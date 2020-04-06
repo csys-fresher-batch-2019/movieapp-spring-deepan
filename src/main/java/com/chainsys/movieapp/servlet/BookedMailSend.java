@@ -25,20 +25,19 @@ public class BookedMailSend extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-
 		HttpSession ses = request.getSession(false);
 		Integer userId = (Integer) ses.getAttribute("USER_ID");
-		logger.info(""+userId);
+		logger.info("" + userId);
 		String seat = (String) ses.getAttribute("no_of_seats");
 		logger.info(seat);
 		Integer totalAmount = (Integer) ses.getAttribute("tot_amt");
-		logger.info(""+totalAmount);
+		logger.info("" + totalAmount);
 		Integer movieTheatreId = (Integer) ses.getAttribute("movieTheatreId");
-		logger.info(""+movieTheatreId);
+		logger.info("" + movieTheatreId);
 		Integer m = movieTheatreId;
 		Integer ns = Integer.parseInt(seat);
-		logger.info(""+ns);
-		
+		logger.info("" + ns);
+
 		UserInformationDAOImpl ui = new UserInformationDAOImpl();
 		String Email = null;
 		try {
@@ -49,14 +48,13 @@ public class BookedMailSend extends HttpServlet {
 			logger.debug(e.getMessage());
 		}
 		String s = request.getParameter("mail");
+		System.out.println(s);
 		if (s.equals("yes")) {
 			try {
-
-				
 				BookedMailService.send("movieappservice@gmail.com", "Deepan@123", Email, "Booking Details",
 						"Successfully booked", 1, userId, m, ns, totalAmount);
 				logger.info(Email + " Mail sent Successfully");
-				response.sendRedirect("HomeMovies.jsp");
+				response.sendRedirect("HomeMovies");
 
 			} catch (Exception e) {
 				logger.debug(e.getMessage());

@@ -32,6 +32,7 @@ body {
 					style="color: white; font-size: 20px; font-family: courier; text-align: center;">Movie Name      <input
 						type="text" name="Moviename" required autofocus />
 
+				
 				<p
 					style="color: white; font-size: 20px; font-family: courier; text-align: center;">Movie Type      <select
 						name="MovieType">
@@ -42,6 +43,7 @@ body {
                      <option value="Romance">Romance </option>
                      </select>
 
+				
 				<p
 					style="color: white; font-size: 20px; font-family: courier; text-align: center;">Movie Language  <select
 						name="Language">
@@ -52,6 +54,7 @@ body {
                      <option value="Telugu">Telugu </option>
                      </select>               
 
+				
 				<p
 					style="color: white; font-size: 20px; font-family: courier; text-align: center;">Movie Rating    <select
 						name="Rating">
@@ -62,26 +65,28 @@ body {
                      <option value="1">1</option>
                      </select>        
 
+				
 				<p
 					style="color: white; font-size: 20px; font-family: courier; text-align: center;">Movie Duration  <input
 						type="text" name="duration" required />                           
 
+				
 				<p
 					style="color: white; font-size: 20px; font-family: courier; text-align: center;">Released Date   <input
 						type="date" id="Releaseddate" name="releaseddate" required />  
 
+				
 				<p
 					style="color: white; font-size: 20px; font-family: courier; text-align: center;">Movie Image     <input
 						type="file" name="image" required />         
 
+			
 			</pre>
 			<p
 				style="color: white; font-size: 20px; font-family: courier; text-align: center;">
-				<button type="submit">Add</button>
-				<br></br>
+				<a href="HomeMovies"><button type="submit">Add</button></a>> <br></br>
 		</div>
-		<br />
-		<br />
+		<br /> <br />
 
 	</form>
 </body>
